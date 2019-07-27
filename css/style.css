@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+#board {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 7rem;
+  display: block;
+  text-align: center;
+  height: 90rem;
+  width: 90rem;
+}
+
+.board {
+  opacity: 1;
+}
+
+.row {
+  height: 6rem;
+}
+
+.col {
+  min-width: 6rem;
+  min-height: 6rem;
+  display: inline-block;
+  border: 1px solid #333;
+  /* background-color: lightgreen; */
+}
+
+/* Show Player */
+.playerOneActive {
+  background: url(../img/PlayerOne.png) no-repeat center;
+  background-size: contain;
+}
