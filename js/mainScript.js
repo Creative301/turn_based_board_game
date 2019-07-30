@@ -1,7 +1,3 @@
-// $(document).ready(function() {
-//   drawBoard();
-// });
-
 (function($, window, document) {
   $(function() {
     drawBoard();
