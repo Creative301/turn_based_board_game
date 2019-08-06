@@ -101,14 +101,14 @@ function allowedtoMove() {
 
   allowedBoxes.forEach(function(box) {
     box.addClass('canMove');
+    box.removeClass('box');
   });
 }
 
-// Create obstacles
-function setObstacles(sum) {
-  let sumObstacles = sum;
-  // console.log(sumObstacles);
-
+// Create obstacles and weapons
+function obstaclesAndWeapons(obstacles) {
+  let sumObstacles = obstacles;
+  let blockedBoxes = [];
   // boxes = document.getElementsByClassName("box");
   for (let i = 0; i < sumObstacles; i++) {
     let generateRandomNumber = Math.floor(Math.random() * boxes.length);
@@ -116,8 +116,10 @@ function setObstacles(sum) {
     let addObstacles = boxes[generateRandomNumber];
 
     addObstacles.classList.add('obstacles');
-    addObstacles.classList.remove('box');
+    addObstacles.classList.remove('box', 'vacant', 'canMove');
 
-    obstacles.push(addObstacles.id);
+    blockedBoxes.push(addObstacles.id);
   }
+
+  console.log(blockedBoxes);
 }

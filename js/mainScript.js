@@ -69,7 +69,7 @@ function drawBoard() {
     .removeClass('box');
 
   allowedtoMove();
-  setObstacles(20);
+  obstaclesAndWeapons(20);
 }
 
 // Player class
