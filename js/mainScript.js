@@ -4,50 +4,82 @@
   });
 })(window.jQuery, window, document);
 
-let currentPlayer, inactivePlayer, cell, playerOnePosition, playerTwoPosition;
-let addCellClass = document.querySelectorAll(".col");
+let rows = 10;
+let cols = 10;
+let playerOneX,
+  playerOneY,
+  playerTwoX,
+  playerTwoY,
+  playerOnePosition,
+  playerTwoPosition;
+let addBoxClass = document.getElementsByClassName('col');
+
+// Generate random number for the player position
+let randomPositionNumbers = [];
+
+let numberGenerator = function(arr) {
+  if (arr.length > 3) return;
+  let newNumber = Math.floor(Math.random() * rows + 1);
+  if (arr.indexOf(newNumber) < 0) {
+    arr.push(newNumber);
+  }
+  numberGenerator(arr);
+};
+numberGenerator(randomPositionNumbers);
+
+// Player position
+playerOneX = randomPositionNumbers[0];
+playerOneY = randomPositionNumbers[1];
+playerTwoX = randomPositionNumbers[2];
+playerTwoY = randomPositionNumbers[3];
+
+playerOnePosition = `#${playerOneX}_${playerOneY}`;
+playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
 
 function drawBoard() {
   // Create the grid
-  const grid = new Grid("#board", 10, 10);
+  const grid = new Grid('#board', rows, cols);
 
   // Set the active player
   currentPlayer = playerOne;
   inactivePlayer = playerTwo;
 
-  // Add cell class for each col class
-  addCellClass.forEach(function(cell) {
-    cell.classList.add("cell");
-  });
+  // Add box class for each col class
+  for (let i = 0; i < addBoxClass.length; i++) {
+    // console.log(addBoxClass[i]);
+    addBoxClass[i].classList.add('box');
+  }
 
   // Get the current player one position
-  currentRow = playerOne.position.y;
-  currentColumn = playerOne.position.x;
+  currentRow = playerOneY;
+  currentColumn = playerOneX;
+  console.log(currentColumn);
 
-  playerOnePosition = "#0_0";
-  playerTwoPosition = "#9_9";
+  $('div').removeClass('playerOneAllowed canMove playerOneActive');
+  $('div', '#board').addClass('vacant');
 
-  // Add class to the active player and remove the cell class
+  // Add class to the active player and remove the box class
   $(playerOnePosition)
-    .addClass("playerOneActive playerTurn")
-    .removeClass("cell");
+    .addClass('playerOneActive playerTurn')
+    .removeClass('box');
 
-  // Add class to the inactive player and remove the cell class
+  // Add class to the inactive player and remove the box class
   $(playerTwoPosition)
-    .addClass("playerTwoActive")
-    .removeClass("cell");
+    .addClass('playerTwoActive')
+    .removeClass('box');
 
   allowedtoMove();
+  setObstacles(20);
 }
 
 // Player class
 class Player {
-  constructor(name, health, attack, activeCell, hoverCell, x, y, positionID) {
+  constructor(name, health, weapon, activeBox, hoverBox, x, y, positionID) {
     this.name = name;
     this.health = health;
-    this.attack = attack;
-    this.activeCell = activeCell;
-    this.hoverCell = hoverCell;
+    this.weapon = weapon;
+    this.activeBox = activeBox;
+    this.hoverBox = hoverBox;
     this.position = {
       x: x,
       y: y
@@ -58,24 +90,31 @@ class Player {
 
 // Instantiate player one object
 const playerOne = new Player(
-  "Maverick",
+  'Maverick',
   100,
   10,
-  "playerOneActive",
-  "playerOneAllowed",
-  0,
-  0,
-  "#0_0"
+  'playerOneActive',
+  'playerOneAllowed',
+  playerOneX,
+  playerOneY,
+  playerOnePosition
 );
+
+console.log(playerOne);
 
 // Instantiate player two object
 const playerTwo = new Player(
-  "Viper",
+  'Viper',
   100,
   10,
-  "playerTwoActive",
-  "playerTwoAllowed",
-  9,
-  9,
-  "#9_9"
+  'playerTwoActive',
+  'playerTwoAllowed',
+  playerTwoX,
+  playerTwoY,
+  playerTwoPosition
 );
+
+let currentPlayer, inactivePlayer, box, winner, loser;
+let boxes = document.getElementsByClassName('box');
+let obstacles = [];
+let obstacleBoxes = [];

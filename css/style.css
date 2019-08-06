@@ -51,3 +51,8 @@ body {
   background: url(../img/PlayerOne.png) no-repeat center;
   background-size: contain;
 }
+
+/* Obstacles */
+.obstacles {
+  border: 2px solid red;
+}

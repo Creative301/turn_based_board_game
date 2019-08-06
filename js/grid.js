@@ -11,13 +11,13 @@ class Grid {
   createGrid() {
     const $board = $(this.selector);
     for (let row = 0; row < this.rows; row++) {
-      const $row = $("<div>").addClass("row");
+      const $row = $('<div>').addClass('row');
       for (let col = 0; col < this.cols; col++) {
-        const $col = $("<div>")
-          .addClass("col vacant cell vacantCell")
-          .attr("data-col", col)
-          .attr("data-row", row)
-          .attr("id", col + "_" + row);
+        const $col = $('<div>')
+          .addClass('col box vacant vacantBox')
+          .attr('data-col', col)
+          .attr('data-row', row)
+          .attr('id', col + '_' + row);
         $row.append($col);
       }
       $board.append($row);
@@ -28,46 +28,46 @@ class Grid {
   setupEventListeners() {
     const $board = $(this.selector);
 
-    $board.on("mouseenter", ".col.vacant", function() {
-      $(this).addClass("onHover");
-      if ($(this).hasClass("canMove")) {
-        $(this).addClass(currentPlayer.hoverCell);
+    $board.on('mouseenter', '.col.vacant', function() {
+      $(this).addClass('onHover');
+      if ($(this).hasClass('canMove')) {
+        $(this).addClass(currentPlayer.hoverBox);
       }
     });
 
-    $board.on("mouseleave", ".col.vacant", function() {
-      $(this).removeClass("onHover");
-      if ($(this).hasClass("canMove")) {
-        $(this).removeClass(currentPlayer.hoverCell);
+    $board.on('mouseleave', '.col.vacant', function() {
+      $(this).removeClass('onHover');
+      if ($(this).hasClass('canMove')) {
+        $(this).removeClass(currentPlayer.hoverBox);
       }
     });
 
-    $board.on("click", ".canMove", movement);
+    $board.on('click', '.canMove', movement);
   }
 }
 
 // Player movement
 function movement() {
-  selectRow = $(this).data("row");
-  selectCol = $(this).data("col");
+  selectRow = $(this).data('row');
+  selectCol = $(this).data('col');
   selectedColRow = `#${selectCol}_${selectRow}`;
 
   // Remove the player active class
-  $(currentPlayer.positionID).removeClass(currentPlayer.activeCell);
-  // console.log(currentPlayer.activeCell);
+  $(currentPlayer.positionID).removeClass(currentPlayer.activeBox);
+  // console.log(currentPlayer.activeBox);
 
   // Remove the player allowed class
-  $(this).removeClass(currentPlayer.hoverCell);
-  // console.log(currentPlayer.hoverCell);
+  $(this).removeClass(currentPlayer.hoverBox);
+  // console.log(currentPlayer.hoverBox);
 
-  $(this).removeClass("canMove");
+  $(this).removeClass('canMove');
 
-  // Show the player on the new cell that was clicked
-  $(this).addClass(currentPlayer.activeCell);
-  $(this).addClass("playerOneActive");
+  // Show the player on the new box that was clicked
+  $(this).addClass(currentPlayer.activeBox);
+  $(this).addClass('playerOneActive');
 
-  currentPlayer.position.x = $(this).data("col");
-  currentPlayer.position.y = $(this).data("row");
+  currentPlayer.position.x = $(this).data('col');
+  currentPlayer.position.y = $(this).data('row');
 
   currentPlayer.positionID = `#${currentPlayer.position.x}_${
     currentPlayer.position.y
@@ -76,7 +76,7 @@ function movement() {
   playerOnePosition = `#${playerOne.position.x}_${playerOne.position.y}`;
 
   // console.log(selectedColRow);
-  // console.log(currentPlayer.hoverCell);
+  // console.log(currentPlayer.hoverBox);
   console.log(playerOnePosition);
 }
 
@@ -84,7 +84,7 @@ function movement() {
 function allowedtoMove() {
   /* Limit movement to 3 columns and 3 rows 
   Horizontal and vertical */
-  let allowedCells = [
+  let allowedBoxes = [
     $(`#${currentColumn - 1}_${currentRow}`),
     $(`#${currentColumn - 2}_${currentRow}`),
     $(`#${currentColumn - 3}_${currentRow}`),
@@ -99,7 +99,25 @@ function allowedtoMove() {
     $(`#${currentColumn}_${currentRow + 3}`)
   ];
 
-  allowedCells.forEach(function(cell) {
-    cell.addClass("canMove");
+  allowedBoxes.forEach(function(box) {
+    box.addClass('canMove');
   });
+}
+
+// Create obstacles
+function setObstacles(sum) {
+  let sumObstacles = sum;
+  // console.log(sumObstacles);
+
+  // boxes = document.getElementsByClassName("box");
+  for (let i = 0; i < sumObstacles; i++) {
+    let generateRandomNumber = Math.floor(Math.random() * boxes.length);
+
+    let addObstacles = boxes[generateRandomNumber];
+
+    addObstacles.classList.add('obstacles');
+    addObstacles.classList.remove('box');
+
+    obstacles.push(addObstacles.id);
+  }
 }
