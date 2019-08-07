@@ -53,7 +53,7 @@ function drawBoard() {
   // Get the current player one position
   currentRow = playerOneY;
   currentColumn = playerOneX;
-  console.log(currentColumn);
+  // console.log(currentColumn);
 
   $('div').removeClass('playerOneAllowed canMove playerOneActive');
   $('div', '#board').addClass('vacant');
@@ -69,7 +69,7 @@ function drawBoard() {
     .removeClass('box');
 
   allowedtoMove();
-  obstaclesAndWeapons(20);
+  obstaclesAndWeapons(20, 4);
 }
 
 // Player class
@@ -99,8 +99,6 @@ const playerOne = new Player(
   playerOneY,
   playerOnePosition
 );
-
-console.log(playerOne);
 
 // Instantiate player two object
 const playerTwo = new Player(

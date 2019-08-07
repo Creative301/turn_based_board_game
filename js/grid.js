@@ -106,11 +106,13 @@ function allowedtoMove() {
 }
 
 // Create obstacles and weapons
-function obstaclesAndWeapons(obstacles) {
-  let sumObstacles = obstacles;
+function obstaclesAndWeapons(obstacles, weapons) {
+  // let sumObstacles = obstacles;
   let blockedBoxes = [];
   // boxes = document.getElementsByClassName("box");
-  for (let i = 0; i < sumObstacles; i++) {
+
+  // Create obstacles
+  for (let i = 0; i < obstacles; i++) {
     let generateRandomNumber = Math.floor(Math.random() * boxes.length);
 
     let addObstacles = boxes[generateRandomNumber];
@@ -120,6 +122,48 @@ function obstaclesAndWeapons(obstacles) {
 
     blockedBoxes.push(addObstacles.id);
   }
+  // console.log(blockedBoxes);
 
-  console.log(blockedBoxes);
+  let boxesWithoutObstacles = [...boxes];
+  // console.log(boxesWithoutObstacles.length);
+
+  let weaponImages = [
+    '../img/w1_pipe.png',
+    '../img/w2_pipeStandStraight.png',
+    '../img/w3_metal.png',
+    '../img/w4_barrel.png'
+  ];
+
+  // Add weapon class
+  for (let i = 0; i < weapons; i++) {
+    let weaponsId = ['w_1', 'w_2', 'w_3', 'w_4'];
+    let weapons = ['weapon_1', 'weapon_2', 'weapon_3', 'weapon_4'];
+
+    let generateRandomNumber = Math.floor(
+      Math.random() * boxesWithoutObstacles.length
+    );
+
+    let addWeapons = boxesWithoutObstacles[generateRandomNumber];
+    addWeapons.classList.add('weapon');
+    addWeapons.classList.add(weapons[i]);
+
+    boxesWithoutObstacles.splice(generateRandomNumber, 1);
+  }
+
+  // Show weapons on the board
+  document.querySelector('.weapon_1').style.backgroundImage = `url(
+    ${weaponImages[0]}
+  )`;
+
+  document.querySelector('.weapon_2').style.backgroundImage = `url(
+    ${weaponImages[1]}
+  )`;
+
+  document.querySelector('.weapon_3').style.backgroundImage = `url(
+    ${weaponImages[2]}
+  )`;
+
+  document.querySelector('.weapon_4').style.backgroundImage = `url(
+    ${weaponImages[3]}
+  )`;
 }
