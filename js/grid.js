@@ -52,20 +52,22 @@ function movement() {
   selectCol = $(this).data('col');
   selectedColRow = `#${selectCol}_${selectRow}`;
 
-  // Remove the player active class
+  // Remove the player active class when the player move to another box
   $(currentPlayer.positionID).removeClass(currentPlayer.activeBox);
   // console.log(currentPlayer.activeBox);
 
-  // Remove the player allowed class
+  // Remove the player allowed class when the player move to another box
   $(this).removeClass(currentPlayer.hoverBox);
   // console.log(currentPlayer.hoverBox);
 
   $(this).removeClass('canMove');
-
   // Show the player on the new box that was clicked
   $(this).addClass(currentPlayer.activeBox);
-  $(this).addClass('playerOneActive');
+  console.log(currentPlayer.activeBox);
 
+  // Switch active class
+  $(currentPlayer.positionID).removeClass('playerTurn');
+  $(inactivePlayer.positionID).addClass('playerTurn');
   currentPlayer.position.x = $(this).data('col');
   currentPlayer.position.y = $(this).data('row');
 
@@ -74,10 +76,24 @@ function movement() {
   }`;
 
   playerOnePosition = `#${playerOne.position.x}_${playerOne.position.y}`;
+  playerTwoPosition = `#${playerTwo.position.x}_${playerTwo.position.y}`;
 
   // console.log(selectedColRow);
   // console.log(currentPlayer.hoverBox);
-  console.log(playerOnePosition);
+  // console.log(playerOnePosition);
+
+  // Switch the player
+  if (currentPlayer === playerOne) {
+    currentPlayer = playerTwo;
+    inactivePlayer = playerOne;
+  } else {
+    currentPlayer = playerOne;
+    inactivePlayer = playerTwo;
+  }
+
+  currentColumn = currentPlayer.position.x;
+  currentRow = currentPlayer.position.y;
+  allowedtoMove();
 }
 
 // Limit the player movement
@@ -105,13 +121,25 @@ function allowedtoMove() {
   });
 }
 
-// Create obstacles and weapons
+// Disable player movement after obstacle
+function preventMoveAfterObstacle() {
+  if (cantMove.includes(currentColumn + '_' + (currentRow - 1))) {
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + '_' + (currentRow - 2))) {
+    $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
+  }
+}
+
+// Add obstacles and weapons
 function obstaclesAndWeapons(obstacles, weapons) {
   // let sumObstacles = obstacles;
-  let blockedBoxes = [];
+  // let cantMove = [];
   // boxes = document.getElementsByClassName("box");
 
-  // Create obstacles
+  // Add obstacles
   for (let i = 0; i < obstacles; i++) {
     let generateRandomNumber = Math.floor(Math.random() * boxes.length);
 
@@ -120,9 +148,9 @@ function obstaclesAndWeapons(obstacles, weapons) {
     addObstacles.classList.add('obstacles');
     addObstacles.classList.remove('box', 'vacant', 'canMove');
 
-    blockedBoxes.push(addObstacles.id);
+    cantMove.push(addObstacles.id);
   }
-  // console.log(blockedBoxes);
+  // console.log(cantMove);
 
   let boxesWithoutObstacles = [...boxes];
   // console.log(boxesWithoutObstacles.length);

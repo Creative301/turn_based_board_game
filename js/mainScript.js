@@ -55,7 +55,9 @@ function drawBoard() {
   currentColumn = playerOneX;
   // console.log(currentColumn);
 
-  $('div').removeClass('playerOneAllowed canMove playerOneActive');
+  $('div').removeClass(
+    'playerOneAllowed canMove playerOneActive playerTwoActive playerTurn weapon_1 weapon_2 weapon_3 weapon_4'
+  );
   $('div', '#board').addClass('vacant');
 
   // Add class to the active player and remove the box class
@@ -115,4 +117,5 @@ const playerTwo = new Player(
 let currentPlayer, inactivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
-let obstacleBoxes = [];
+let cantMove = [];
+console.log(cantMove);

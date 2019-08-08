@@ -51,6 +51,11 @@ body {
   background-size: contain;
 }
 
+.playerTwoActive {
+  background: url(../img/PlayerTwo.png) no-repeat center;
+  background-size: contain;
+}
+
 /* Obstacles */
 .obstacles {
   border: 2px solid red;
@@ -64,4 +69,8 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+
+.playerTurn {
+  background-color: orange;
 }
