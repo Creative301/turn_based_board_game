@@ -46,6 +46,8 @@ class Grid {
   }
 }
 
+let cantMove = [];
+
 // Player movement
 function movement() {
   selectRow = $(this).data('row');
@@ -94,6 +96,9 @@ function movement() {
   currentColumn = currentPlayer.position.x;
   currentRow = currentPlayer.position.y;
   allowedtoMove();
+  disableMove();
+  $(`${playerOnePosition}`).removeClass('canMove');
+  $(`${playerTwoPosition}`).removeClass('canMove');
 }
 
 // Limit the player movement
@@ -122,14 +127,132 @@ function allowedtoMove() {
 }
 
 // Disable player movement after obstacle
-function preventMoveAfterObstacle() {
+function disableMove() {
+  console.log(cantMove);
   if (cantMove.includes(currentColumn + '_' + (currentRow - 1))) {
+    console.log('true');
+
     $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
     $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
   }
 
   if (cantMove.includes(currentColumn + '_' + (currentRow - 2))) {
     $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + '_' + (currentRow - 1)) &&
+    cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1))
+  ) {
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn + 1}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1))) {
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1)) &&
+    cantMove.includes(currentColumn + 1 + '_' + currentRow)
+  ) {
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow - 1}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + 1 + '_' + currentRow)) {
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn + 3}_${currentRow}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + 2 + '_' + currentRow)) {
+    $(`#${currentColumn + 3}_${currentRow}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + 1 + '_' + currentRow) &&
+    cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))
+  ) {
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow + 1}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))) {
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + '_' + (currentRow + 1)) &&
+    cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))
+  ) {
+    $(`#${currentColumn + 1}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + '_' + (currentRow + 1))) {
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn}_${currentRow + 3}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn + '_' + (currentRow + 2))) {
+    $(`#${currentColumn}_${currentRow + 3}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + '_' + (currentRow + 1)) &&
+    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+  ) {
+    $(`#${currentColumn - 1}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))) {
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn - 1 + '_' + currentRow) &&
+    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+  ) {
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow + 1}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn - 1 + '_' + currentRow)) {
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn - 3}_${currentRow}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn - 2 + '_' + currentRow)) {
+    $(`#${currentColumn - 3}_${currentRow}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn - 1 + '_' + currentRow) &&
+    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+  ) {
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow - 1}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
+  }
+
+  if (cantMove.includes(currentColumn - 1 + '_' + (currentRow - 1))) {
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
+  }
+
+  if (
+    cantMove.includes(currentColumn + '_' + (currentRow - 1)) &&
+    cantMove.includes(currentColumn - 1 + '_' + (currentRow - 1))
+  ) {
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn - 1}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
   }
 }
 

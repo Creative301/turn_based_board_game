@@ -12,6 +12,8 @@ let playerOneX,
   playerTwoY,
   playerOnePosition,
   playerTwoPosition;
+// currentColumn,
+// currentRow;
 let addBoxClass = document.getElementsByClassName('col');
 
 // Generate random number for the player position
@@ -72,6 +74,7 @@ function drawBoard() {
 
   allowedtoMove();
   obstaclesAndWeapons(20, 4);
+  disableMove();
 }
 
 // Player class
@@ -117,5 +120,5 @@ const playerTwo = new Player(
 let currentPlayer, inactivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
-let cantMove = [];
-console.log(cantMove);
+// let cantMove = [];
+// console.log(cantMove);
