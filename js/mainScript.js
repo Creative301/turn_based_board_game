@@ -73,7 +73,7 @@ function drawBoard() {
     .removeClass('box');
 
   allowedtoMove();
-  obstaclesAndWeapons(20, 4);
+  obstaclesAndWeapons(30, 4);
   disableMove();
 }
 
@@ -117,7 +117,7 @@ const playerTwo = new Player(
   playerTwoPosition
 );
 
-let currentPlayer, inactivePlayer, box, winner, loser;
+let numberOfRound, currentPlayer, inactivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
 // let cantMove = [];

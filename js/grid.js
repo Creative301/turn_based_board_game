@@ -50,22 +50,26 @@ let cantMove = [];
 
 // Player movement
 function movement() {
-  selectRow = $(this).data('row');
   selectCol = $(this).data('col');
+  selectRow = $(this).data('row');
   selectedColRow = `#${selectCol}_${selectRow}`;
 
   // Remove the player active class when the player move to another box
   $(currentPlayer.positionID).removeClass(currentPlayer.activeBox);
+  // activeBox = playerOneActive
   // console.log(currentPlayer.activeBox);
 
   // Remove the player allowed class when the player move to another box
   $(this).removeClass(currentPlayer.hoverBox);
+  // hoverBox = playerOneAllowed
   // console.log(currentPlayer.hoverBox);
 
   $(this).removeClass('canMove');
   // Show the player on the new box that was clicked
   $(this).addClass(currentPlayer.activeBox);
-  console.log(currentPlayer.activeBox);
+  // console.log(currentPlayer.activeBox);
+
+  $('div').removeClass('onHover canMove');
 
   // Switch active class
   $(currentPlayer.positionID).removeClass('playerTurn');
@@ -95,6 +99,7 @@ function movement() {
 
   currentColumn = currentPlayer.position.x;
   currentRow = currentPlayer.position.y;
+  // document.getElementsByClassName('box').removeClass('canMove');
   allowedtoMove();
   disableMove();
   $(`${playerOnePosition}`).removeClass('canMove');
@@ -121,8 +126,11 @@ function allowedtoMove() {
   ];
 
   allowedBoxes.forEach(function(box) {
-    box.addClass('canMove');
-    box.removeClass('box');
+    if (!box.hasClass('obstacles')) {
+      box.addClass('canMove');
+    }
+    // box.addClass('canMove');
+    // box.removeClass('box');
   });
 }
 
