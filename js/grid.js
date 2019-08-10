@@ -69,6 +69,7 @@ function movement() {
   $(this).addClass(currentPlayer.activeBox);
   // console.log(currentPlayer.activeBox);
 
+  // Remove canMove class when the player switch
   $('div').removeClass('onHover canMove');
 
   // Switch active class

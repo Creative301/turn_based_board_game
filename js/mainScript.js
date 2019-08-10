@@ -4,8 +4,8 @@
   });
 })(window.jQuery, window, document);
 
-let rows = 10;
-let cols = 10;
+const rows = 10;
+const cols = 10;
 let playerOneX,
   playerOneY,
   playerTwoX,
@@ -79,9 +79,9 @@ function drawBoard() {
 
 // Player class
 class Player {
-  constructor(name, health, weapon, activeBox, hoverBox, x, y, positionID) {
+  constructor(name, power, weapon, activeBox, hoverBox, x, y, positionID) {
     this.name = name;
-    this.health = health;
+    this.power = power;
     this.weapon = weapon;
     this.activeBox = activeBox;
     this.hoverBox = hoverBox;
