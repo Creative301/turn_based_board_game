@@ -11,10 +11,28 @@ let playerOneX,
   playerTwoX,
   playerTwoY,
   playerOnePosition,
-  playerTwoPosition;
-// currentColumn,
-// currentRow;
-let addBoxClass = document.getElementsByClassName('col');
+  playerTwoPosition,
+  addBoxClass,
+  playerOnePower,
+  playerTwoPower,
+  playerOneWeapon,
+  playerTwoWeapon,
+  playerOneDamage,
+  playerTwoDamage,
+  playerOnePowerDOM,
+  playerTwoPowerDOM,
+  playerOneWeaponDOM,
+  playerTwoWeaponDOM,
+  playerOneDamageDOM,
+  playerTwoDamageDOM;
+
+addBoxClass = document.getElementsByClassName('col');
+playerOnePowerDOM = document.getElementById('playerOnePower');
+playerTwoPowerDOM = document.getElementById('playerTwoPower');
+playerOneWeaponDOM = document.getElementById('playerOneWeapon');
+playerTwoWeaponDOM = document.getElementById('playerTwoWeapon');
+playerOneDamageDOM = document.getElementById('playerOneDamage');
+playerTwoDamageDOM = document.getElementById('playerTwoDamage');
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -79,10 +97,21 @@ function drawBoard() {
 
 // Player class
 class Player {
-  constructor(name, power, weapon, activeBox, hoverBox, x, y, positionID) {
+  constructor(
+    name,
+    power,
+    weapon,
+    weaponDamage,
+    activeBox,
+    hoverBox,
+    x,
+    y,
+    positionID
+  ) {
     this.name = name;
     this.power = power;
     this.weapon = weapon;
+    this.weaponDamage = weaponDamage;
     this.activeBox = activeBox;
     this.hoverBox = hoverBox;
     this.position = {
@@ -97,6 +126,7 @@ class Player {
 const playerOne = new Player(
   'Maverick',
   100,
+  'Laser',
   10,
   'playerOneActive',
   'playerOneAllowed',
@@ -109,6 +139,7 @@ const playerOne = new Player(
 const playerTwo = new Player(
   'Viper',
   100,
+  'Laser',
   10,
   'playerTwoActive',
   'playerTwoAllowed',
@@ -120,5 +151,16 @@ const playerTwo = new Player(
 let numberOfRound, currentPlayer, inactivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
-// let cantMove = [];
-// console.log(cantMove);
+
+playerOnePower = playerOne.power;
+playerTwoPower = playerTwo.power;
+playerOneWeapon = playerOne.weapon;
+playerTwoWeapon = playerTwo.weapon;
+playerOneDamage = playerOne.weaponDamage;
+playerTwoDamage = playerTwo.weaponDamage;
+playerOnePowerDOM.textContent = playerOnePower;
+playerTwoPowerDOM.textContent = playerTwoPower;
+playerOneWeaponDOM.textContent = playerOneWeapon;
+playerTwoWeaponDOM.textContent = playerTwoWeapon;
+playerOneDamageDOM.textContent = playerOneDamage;
+playerTwoDamageDOM.textContent = playerTwoDamage;
