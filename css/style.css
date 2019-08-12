@@ -15,7 +15,6 @@ html {
 }
 
 body {
-  /* font-family: Arial, Helvetica, sans-serif; */
   font-family: 'Orbitron', sans-serif;
   font-weight: 400;
   color: #333;
@@ -27,7 +26,8 @@ body {
 }
 
 #container h1 {
-  font-size: 2.2rem;
+  color: #f37735;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
 }
 
@@ -38,7 +38,7 @@ body {
 }
 
 #container h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   padding: 1rem 0;
   font-weight: normal;
 }
@@ -65,7 +65,6 @@ body {
   margin-top: 7rem;
   display: block;
   text-align: center;
-  /* height: 90rem; */
   height: auto;
   width: auto;
 }
@@ -117,4 +116,29 @@ body {
 
 .canMove {
   border: 2px solid green;
+}
+
+/* Fight */
+#versus {
+  color: #f37735;
+  display: none;
+  flex-grow: 1;
+  font-size: 8rem;
+  margin-top: 22rem;
+}
+
+#player_1_fight,
+#player_2_fight {
+  display: none;
+  flex-grow: 1;
+  padding-top: 20rem;
+}
+
+#player_1_fight img {
+  margin-top: 1.6rem;
+}
+
+#player_1_fight img,
+#player_2_fight img {
+  width: 17rem;
 }

@@ -14,7 +14,7 @@
   <body>
     <section id="container">
       <aside id="player_1" class="player_1 active">
-        <figure>
+        <figure id="player_1_Img">
           <img src="img/PlayerOne.png" alt="Player One" />
         </figure>
         <h1>Maverick</h1>
@@ -22,9 +22,28 @@
         <h3>Weapon: <span id="weapon_1"></span></h3>
         <h3>Weapon Damage: <span id="damage_1"></span></h3>
       </aside>
-      <div id="board" class="board"></div>
-      <aside id="player_2" class="player_2">
+
+      <div id="player_1_fight">
         <figure>
+          <img src="img/PlayerOne.png" alt="Player One" />
+        </figure>
+      </div>
+
+      <div id="versus">
+        <p>VS</p>
+      </div>
+
+      <!-- Game board -->
+      <div id="board" class="board"></div>
+
+      <div id="player_2_fight">
+        <figure>
+          <img src="img/PlayerTwo.png" alt="Player Two" />
+        </figure>
+      </div>
+
+      <aside id="player_2" class="player_2">
+        <figure id="player_2_Img">
           <img src="img/PlayerTwo.png" alt="Player Two" />
         </figure>
         <h1>Viper</h1>
@@ -35,6 +54,7 @@
     </section>
 
     <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/fight.js"></script>
     <script src="js/grid.js"></script>
     <script src="js/app.js"></script>
   </body>

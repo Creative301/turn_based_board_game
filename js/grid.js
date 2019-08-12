@@ -148,6 +148,11 @@ function movement() {
   disableMove();
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
+
+  // Fight if the players position are adjacent
+  if ($(this).hasClass('adjacent')) {
+    fight();
+  }
 }
 
 // Switch the player

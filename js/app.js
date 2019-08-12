@@ -1,9 +1,3 @@
-(function($, window, document) {
-  $(function() {
-    drawBoard();
-  });
-})(window.jQuery, window, document);
-
 const rows = 10;
 const cols = 10;
 let playerOneX,
@@ -18,7 +12,13 @@ let playerOneX,
   playerOneWeaponDOM,
   playerTwoWeaponDOM,
   playerOneDamageDOM,
-  playerTwoDamageDOM;
+  playerTwoDamageDOM,
+  boardDiv,
+  playerOneImg,
+  playerTwoImg,
+  versus,
+  playerOneFight,
+  playerTwoFight;
 
 addBoxClass = document.getElementsByClassName('col');
 playerOnePowerDOM = document.getElementById('power_1');
@@ -27,6 +27,12 @@ playerOneWeaponDOM = document.getElementById('weapon_1');
 playerTwoWeaponDOM = document.getElementById('weapon_2');
 playerOneDamageDOM = document.getElementById('damage_1');
 playerTwoDamageDOM = document.getElementById('damage_2');
+boardDiv = document.getElementById('board');
+playerOneImg = document.getElementById('player_1_Img');
+playerTwoImg = document.getElementById('player_2_Img');
+versus = document.getElementById('versus');
+playerOneFight = document.getElementById('player_1_fight');
+playerTwoFight = document.getElementById('player_2_fight');
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -156,3 +162,9 @@ let boxes = document.getElementsByClassName('box');
 let obstacles = [];
 
 // console.log(playerOne.weaponDamage);
+
+(function($, window, document) {
+  $(function() {
+    drawBoard();
+  });
+})(window.jQuery, window, document);
