@@ -15,7 +15,8 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: 'Orbitron', sans-serif;
   font-weight: 400;
   color: #333;
   text-align: center;
@@ -42,19 +43,19 @@ body {
   font-weight: normal;
 }
 
-#player1,
-#player2 {
+#player_1,
+#player_2 {
   flex-grow: 1;
   margin-top: 20rem;
 }
 
-#player1 img,
-#player2 img {
+#player_1 img,
+#player_2 img {
   width: 10rem;
   margin-bottom: 2rem;
 }
 
-#player1 img {
+#player_1 img {
   padding-bottom: 2rem;
 }
 
@@ -64,7 +65,8 @@ body {
   margin-top: 7rem;
   display: block;
   text-align: center;
-  height: 90rem;
+  /* height: 90rem; */
+  height: auto;
   width: auto;
 }
 

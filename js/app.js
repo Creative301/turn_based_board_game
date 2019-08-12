@@ -13,12 +13,6 @@ let playerOneX,
   playerOnePosition,
   playerTwoPosition,
   addBoxClass,
-  playerOnePower,
-  playerTwoPower,
-  playerOneWeapon,
-  playerTwoWeapon,
-  playerOneDamage,
-  playerTwoDamage,
   playerOnePowerDOM,
   playerTwoPowerDOM,
   playerOneWeaponDOM,
@@ -27,12 +21,12 @@ let playerOneX,
   playerTwoDamageDOM;
 
 addBoxClass = document.getElementsByClassName('col');
-playerOnePowerDOM = document.getElementById('playerOnePower');
-playerTwoPowerDOM = document.getElementById('playerTwoPower');
-playerOneWeaponDOM = document.getElementById('playerOneWeapon');
-playerTwoWeaponDOM = document.getElementById('playerTwoWeapon');
-playerOneDamageDOM = document.getElementById('playerOneDamage');
-playerTwoDamageDOM = document.getElementById('playerTwoDamage');
+playerOnePowerDOM = document.getElementById('power_1');
+playerTwoPowerDOM = document.getElementById('power_2');
+playerOneWeaponDOM = document.getElementById('weapon_1');
+playerTwoWeaponDOM = document.getElementById('weapon_2');
+playerOneDamageDOM = document.getElementById('damage_1');
+playerTwoDamageDOM = document.getElementById('damage_2');
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -60,9 +54,16 @@ function drawBoard() {
   // Create the grid
   const grid = new Grid('#board', rows, cols);
 
+  playerOnePowerDOM.textContent = playerOne.power;
+  playerTwoPowerDOM.textContent = playerTwo.power;
+  playerOneWeaponDOM.textContent = playerOne.weapon;
+  playerTwoWeaponDOM.textContent = playerTwo.weapon;
+  playerOneDamageDOM.textContent = playerOne.weaponDamage;
+  playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+
   // Set the active player
-  currentPlayer = playerOne;
-  inactivePlayer = playerTwo;
+  activePlayer = playerOne;
+  passivePlayer = playerTwo;
 
   // Add box class for each col class
   for (let i = 0; i < addBoxClass.length; i++) {
@@ -70,14 +71,15 @@ function drawBoard() {
     addBoxClass[i].classList.add('box');
   }
 
-  // Get the current player one position
+  // Set the current player position
   currentRow = playerOneY;
   currentColumn = playerOneX;
   // console.log(currentColumn);
 
   $('div').removeClass(
-    'playerOneAllowed canMove playerOneActive playerTwoActive playerTurn weapon_1 weapon_2 weapon_3 weapon_4'
+    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn weapon_1 weapon_2 weapon_3 weapon_4'
   );
+
   $('div', '#board').addClass('vacant');
 
   // Add class to the active player and remove the box class
@@ -91,6 +93,7 @@ function drawBoard() {
     .removeClass('box');
 
   allowedtoMove();
+  adjacent();
   obstaclesAndWeapons(30, 4);
   disableMove();
 }
@@ -123,7 +126,7 @@ class Player {
 }
 
 // Instantiate player one object
-const playerOne = new Player(
+let playerOne = new Player(
   'Maverick',
   100,
   'Laser',
@@ -136,7 +139,7 @@ const playerOne = new Player(
 );
 
 // Instantiate player two object
-const playerTwo = new Player(
+let playerTwo = new Player(
   'Viper',
   100,
   'Laser',
@@ -148,19 +151,8 @@ const playerTwo = new Player(
   playerTwoPosition
 );
 
-let numberOfRound, currentPlayer, inactivePlayer, box, winner, loser;
+let numberOfRound, activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
 
-playerOnePower = playerOne.power;
-playerTwoPower = playerTwo.power;
-playerOneWeapon = playerOne.weapon;
-playerTwoWeapon = playerTwo.weapon;
-playerOneDamage = playerOne.weaponDamage;
-playerTwoDamage = playerTwo.weaponDamage;
-playerOnePowerDOM.textContent = playerOnePower;
-playerTwoPowerDOM.textContent = playerTwoPower;
-playerOneWeaponDOM.textContent = playerOneWeapon;
-playerTwoWeaponDOM.textContent = playerTwoWeapon;
-playerOneDamageDOM.textContent = playerOneDamage;
-playerTwoDamageDOM.textContent = playerTwoDamage;
+// console.log(playerOne.weaponDamage);

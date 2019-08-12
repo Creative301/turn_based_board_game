@@ -31,14 +31,14 @@ class Grid {
     $board.on('mouseenter', '.col.vacant', function() {
       $(this).addClass('onHover');
       if ($(this).hasClass('canMove')) {
-        $(this).addClass(currentPlayer.hoverBox);
+        $(this).addClass(activePlayer.hoverBox);
       }
     });
 
     $board.on('mouseleave', '.col.vacant', function() {
       $(this).removeClass('onHover');
       if ($(this).hasClass('canMove')) {
-        $(this).removeClass(currentPlayer.hoverBox);
+        $(this).removeClass(activePlayer.hoverBox);
       }
     });
 
@@ -55,56 +55,110 @@ function movement() {
   selectedColRow = `#${selectCol}_${selectRow}`;
 
   // Remove the player active class when the player move to another box
-  $(currentPlayer.positionID).removeClass(currentPlayer.activeBox);
+  $(activePlayer.positionID).removeClass(activePlayer.activeBox);
   // activeBox = playerOneActive
-  // console.log(currentPlayer.activeBox);
+  // console.log(activePlayer.activeBox);
 
   // Remove the player allowed class when the player move to another box
-  $(this).removeClass(currentPlayer.hoverBox);
+  $(this).removeClass(activePlayer.hoverBox);
   // hoverBox = playerOneAllowed
-  // console.log(currentPlayer.hoverBox);
+  // console.log(activePlayer.hoverBox);
 
   $(this).removeClass('canMove');
   // Show the player on the new box that was clicked
-  $(this).addClass(currentPlayer.activeBox);
-  // console.log(currentPlayer.activeBox);
+  $(this).addClass(activePlayer.activeBox);
+  // console.log(activePlayer.activeBox);
 
   // Remove canMove class when the player switch
-  $('div').removeClass('onHover canMove');
+  $('div').removeClass('onHover canMove adjacent');
 
   // Switch active class
-  $(currentPlayer.positionID).removeClass('playerTurn');
-  $(inactivePlayer.positionID).addClass('playerTurn');
-  currentPlayer.position.x = $(this).data('col');
-  currentPlayer.position.y = $(this).data('row');
+  $(activePlayer.positionID).removeClass('playerTurn');
+  $(passivePlayer.positionID).addClass('playerTurn');
+  activePlayer.position.x = $(this).data('col');
+  activePlayer.position.y = $(this).data('row');
 
-  currentPlayer.positionID = `#${currentPlayer.position.x}_${
-    currentPlayer.position.y
-  }`;
+  activePlayer.positionID = `#${activePlayer.position.x}_${activePlayer.position.y}`;
 
   playerOnePosition = `#${playerOne.position.x}_${playerOne.position.y}`;
   playerTwoPosition = `#${playerTwo.position.x}_${playerTwo.position.y}`;
 
-  // console.log(selectedColRow);
-  // console.log(currentPlayer.hoverBox);
-  // console.log(playerOnePosition);
-
-  // Switch the player
-  if (currentPlayer === playerOne) {
-    currentPlayer = playerTwo;
-    inactivePlayer = playerOne;
-  } else {
-    currentPlayer = playerOne;
-    inactivePlayer = playerTwo;
+  // Add weapon
+  if ($(this).hasClass('weapon_1')) {
+    $('.weapon_1').css('background', '');
+    activePlayer.weapon = 'Pipe';
+    activePlayer.weaponDamage = 15;
+    console.log(activePlayer.weaponDamage);
+    if (activePlayer === playerOne) {
+      playerOneWeaponDOM.textContent = playerOne.weapon;
+      playerOneDamageDOM.textContent = playerOne.weaponDamage;
+    }
+    if (activePlayer === playerTwo) {
+      playerTwoWeaponDOM.textContent = playerTwo.weapon;
+      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+    }
+  } else if ($(this).hasClass('weapon_2')) {
+    $('.weapon_2').css('background', '');
+    activePlayer.weapon = 'Reinforced Pipe';
+    activePlayer.weaponDamage = 20;
+    console.log(activePlayer.weaponDamage);
+    if (activePlayer === playerOne) {
+      playerOneWeaponDOM.textContent = playerOne.weapon;
+      playerOneDamageDOM.textContent = playerOne.weaponDamage;
+    }
+    if (activePlayer === playerTwo) {
+      playerTwoWeaponDOM.textContent = playerTwo.weapon;
+      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+    }
+  } else if ($(this).hasClass('weapon_3')) {
+    $('.weapon_3').css('background', '');
+    activePlayer.weapon = 'Metal';
+    activePlayer.weaponDamage = 25;
+    console.log(activePlayer.weaponDamage);
+    if (activePlayer === playerOne) {
+      playerOneWeaponDOM.textContent = playerOne.weapon;
+      playerOneDamageDOM.textContent = playerOne.weaponDamage;
+    }
+    if (activePlayer === playerTwo) {
+      playerTwoWeaponDOM.textContent = playerTwo.weapon;
+      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+    }
+  } else if ($(this).hasClass('weapon_4')) {
+    $('.weapon_4').css('background', '');
+    activePlayer.weapon = 'Barrel';
+    activePlayer.weaponDamage = 30;
+    console.log(activePlayer.weaponDamage);
+    if (activePlayer === playerOne) {
+      playerOneWeaponDOM.textContent = playerOne.weapon;
+      playerOneDamageDOM.textContent = playerOne.weaponDamage;
+    }
+    if (activePlayer === playerTwo) {
+      playerTwoWeaponDOM.textContent = playerTwo.weapon;
+      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+    }
   }
 
-  currentColumn = currentPlayer.position.x;
-  currentRow = currentPlayer.position.y;
-  // document.getElementsByClassName('box').removeClass('canMove');
+  switchPlayer();
+
+  currentColumn = activePlayer.position.x;
+  currentRow = activePlayer.position.y;
+
   allowedtoMove();
+  adjacent();
   disableMove();
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
+}
+
+// Switch the player
+function switchPlayer() {
+  if (activePlayer === playerOne) {
+    activePlayer = playerTwo;
+    passivePlayer = playerOne;
+  } else {
+    activePlayer = playerOne;
+    passivePlayer = playerTwo;
+  }
 }
 
 // Limit the player movement
@@ -130,17 +184,29 @@ function allowedtoMove() {
     if (!box.hasClass('obstacles')) {
       box.addClass('canMove');
     }
-    // box.addClass('canMove');
-    // box.removeClass('box');
+  });
+}
+
+// Adjacent position
+function adjacent() {
+  let adjacentBoxes = [
+    $(`#${currentColumn + 1}_${currentRow - 1}`),
+    $(`#${currentColumn}_${currentRow - 1}`),
+    $(`#${currentColumn - 1}_${currentRow - 1}`),
+    $(`#${currentColumn - 1}_${currentRow}`),
+    $(`#${currentColumn}_${currentRow + 1}`),
+    $(`#${currentColumn + 1}_${currentRow}`),
+    $(`#${currentColumn + 1}_${currentRow + 1}`)
+  ];
+
+  adjacentBoxes.forEach(function(box) {
+    box.addClass('adjacent');
   });
 }
 
 // Disable player movement after obstacle
 function disableMove() {
-  console.log(cantMove);
   if (cantMove.includes(currentColumn + '_' + (currentRow - 1))) {
-    console.log('true');
-
     $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
     $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
   }
@@ -267,10 +333,6 @@ function disableMove() {
 
 // Add obstacles and weapons
 function obstaclesAndWeapons(obstacles, weapons) {
-  // let sumObstacles = obstacles;
-  // let cantMove = [];
-  // boxes = document.getElementsByClassName("box");
-
   // Add obstacles
   for (let i = 0; i < obstacles; i++) {
     let generateRandomNumber = Math.floor(Math.random() * boxes.length);
@@ -289,7 +351,7 @@ function obstaclesAndWeapons(obstacles, weapons) {
 
   let weaponImages = [
     '../img/w1_pipe.png',
-    '../img/w2_pipeStandStraight.png',
+    '../img/w2_pipeStand.png',
     '../img/w3_metal.png',
     '../img/w4_barrel.png'
   ];
