@@ -101,7 +101,7 @@ function movement() {
     $('.weapon_2').css('background', '');
     activePlayer.weapon = 'Reinforced Pipe';
     activePlayer.weaponDamage = 20;
-    console.log(activePlayer.weaponDamage);
+    // console.log(activePlayer.weaponDamage);
     if (activePlayer === playerOne) {
       playerOneWeaponDOM.textContent = playerOne.weapon;
       playerOneDamageDOM.textContent = playerOne.weaponDamage;
@@ -355,15 +355,14 @@ function obstaclesAndWeapons(obstacles, weapons) {
   // console.log(boxesWithoutObstacles.length);
 
   let weaponImages = [
-    '../img/w1_pipe.png',
-    '../img/w2_pipeStand.png',
-    '../img/w3_metal.png',
-    '../img/w4_barrel.png'
+    'img/w1_pipe.png',
+    'img/w2_pipeStand.png',
+    'img/w3_metal.png',
+    'img/w4_barrel.png'
   ];
 
   // Add weapon class
   for (let i = 0; i < weapons; i++) {
-    let weaponsId = ['w_1', 'w_2', 'w_3', 'w_4'];
     let weapons = ['weapon_1', 'weapon_2', 'weapon_3', 'weapon_4'];
 
     let generateRandomNumber = Math.floor(
@@ -403,23 +402,42 @@ function fight() {
   playerOneFight.style.display = 'block';
   playerTwoFight.style.display = 'block';
 
-  if (activePlayer === playerOne) {
+  if (passivePlayer === playerOne) {
     playerOneFightButtons.style.display = 'block';
     playerOneAttackButton.addEventListener('click', function() {
-      console.log('Test');
-      passivePlayer.power -= activePlayer.weaponDamage;
-      playerTwoPowerDOM = passivePlayer.power;
-      switchPlayer();
+      console.log('Test1');
+      playerTwo.power -= playerOne.weaponDamage;
+      playerTwoPowerDOM.textContent = playerTwo.power;
+      playerOneFightButtons.style.display = 'none';
+      playerTwoFightButtons.style.display = 'block';
+      // switchPlayerForFight();
+      passivePlayer = playerTwo;
+      activePlayer = playerOne;
+      console.log(passivePlayer);
     });
-  }
-
-  if (activePlayer === playerTwo) {
+  } else if (passivePlayer === playerTwo) {
     playerTwoFightButtons.style.display = 'block';
     playerTwoAttackButton.addEventListener('click', function() {
-      console.log('Test');
-      passivePlayer.power -= activePlayer.weaponDamage;
-      playerOnePowerDOM = passivePlayer.power;
-      switchPlayer();
+      console.log('Test2');
+      playerOne.power -= playerTwo.weaponDamage;
+      playerOnePowerDOM.textContent = playerOne.power;
+      playerTwoFightButtons.style.display = 'none';
+      playerOneFightButtons.style.display = 'block';
+      passivePlayer = playerOne;
+      activePlayer = playerTwo;
+      // switchPlayerForFight();
+      console.log(passivePlayer);
     });
   }
 }
+
+// Switch the player for the fight
+// function switchPlayerForFight() {
+//   if (passivePlayer === playerOne) {
+//     passivePlayer = playerTwo;
+//     activePlayer = playerOne;
+//   } else {
+//     passivePlayer = playerOne;
+//     activePlayer = playerTwo;
+//   }
+// }
