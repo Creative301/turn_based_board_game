@@ -394,3 +394,32 @@ function obstaclesAndWeapons(obstacles, weapons) {
     ${weaponImages[3]}
   )`;
 }
+
+function fight() {
+  boardDiv.style.display = 'none';
+  playerOneImg.style.display = 'none';
+  playerTwoImg.style.display = 'none';
+  versus.style.display = 'block';
+  playerOneFight.style.display = 'block';
+  playerTwoFight.style.display = 'block';
+
+  if (activePlayer === playerOne) {
+    playerOneFightButtons.style.display = 'block';
+    playerOneAttackButton.addEventListener('click', function() {
+      console.log('Test');
+      passivePlayer.power -= activePlayer.weaponDamage;
+      playerTwoPowerDOM = passivePlayer.power;
+      switchPlayer();
+    });
+  }
+
+  if (activePlayer === playerTwo) {
+    playerTwoFightButtons.style.display = 'block';
+    playerTwoAttackButton.addEventListener('click', function() {
+      console.log('Test');
+      passivePlayer.power -= activePlayer.weaponDamage;
+      playerOnePowerDOM = passivePlayer.power;
+      switchPlayer();
+    });
+  }
+}

@@ -18,7 +18,13 @@ let playerOneX,
   playerTwoImg,
   versus,
   playerOneFight,
-  playerTwoFight;
+  playerTwoFight,
+  playerOneFightButtons,
+  playerTwoFightButtons,
+  playerOneAttackButton,
+  playerOneDefendButton,
+  playerTwoAttackButton,
+  playerTwoDefendButton;
 
 addBoxClass = document.getElementsByClassName('col');
 playerOnePowerDOM = document.getElementById('power_1');
@@ -33,6 +39,12 @@ playerTwoImg = document.getElementById('player_2_Img');
 versus = document.getElementById('versus');
 playerOneFight = document.getElementById('player_1_fight');
 playerTwoFight = document.getElementById('player_2_fight');
+playerOneFightButtons = document.getElementById('fight_buttons_1');
+playerTwoFightButtons = document.getElementById('fight_buttons_2');
+playerOneAttackButton = document.getElementById('attack_1');
+playerOneDefendButton = document.getElementById('defend_1');
+playerTwoAttackButton = document.getElementById('attack_2');
+playerTwoDefendButton = document.getElementById('defend_2');
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
