@@ -51,7 +51,7 @@ let randomPositionNumbers = [];
 
 let numberGenerator = function(arr) {
   if (arr.length > 3) return;
-  let newNumber = Math.floor(Math.random() * rows + 1);
+  let newNumber = Math.floor(Math.random() * rows);
   if (arr.indexOf(newNumber) < 0) {
     arr.push(newNumber);
   }
@@ -67,6 +67,8 @@ playerTwoY = randomPositionNumbers[3];
 
 playerOnePosition = `#${playerOneX}_${playerOneY}`;
 playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
+console.log(playerOnePosition);
+console.log(playerTwoPosition);
 
 function drawBoard() {
   // Create the grid
@@ -92,7 +94,6 @@ function drawBoard() {
   // Set the current player position
   currentRow = playerOneY;
   currentColumn = playerOneX;
-  // console.log(currentColumn);
 
   $('div').removeClass(
     'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn weapon_1 weapon_2 weapon_3 weapon_4'
@@ -112,7 +113,7 @@ function drawBoard() {
 
   allowedtoMove();
   adjacent();
-  obstaclesAndWeapons(30, 4);
+  obstaclesAndWeapons(20, 4);
   disableMove();
 }
 
@@ -172,8 +173,6 @@ let playerTwo = new Player(
 let numberOfRound, activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
-
-// console.log(playerOne.weaponDamage);
 
 (function($, window, document) {
   $(function() {

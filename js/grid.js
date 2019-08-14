@@ -56,18 +56,14 @@ function movement() {
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
-  // activeBox = playerOneActive
-  // console.log(activePlayer.activeBox);
 
   // Remove the player allowed class when the player move to another box
   $(this).removeClass(activePlayer.hoverBox);
-  // hoverBox = playerOneAllowed
-  // console.log(activePlayer.hoverBox);
 
   $(this).removeClass('canMove');
+
   // Show the player on the new box that was clicked
   $(this).addClass(activePlayer.activeBox);
-  // console.log(activePlayer.activeBox);
 
   // Remove canMove class when the player switch
   $('div').removeClass('onHover canMove adjacent');
@@ -114,7 +110,7 @@ function movement() {
     $('.weapon_3').css('background', '');
     activePlayer.weapon = 'Metal';
     activePlayer.weaponDamage = 25;
-    console.log(activePlayer.weaponDamage);
+    // console.log(activePlayer.weaponDamage);
     if (activePlayer === playerOne) {
       playerOneWeaponDOM.textContent = playerOne.weapon;
       playerOneDamageDOM.textContent = playerOne.weaponDamage;
@@ -349,10 +345,8 @@ function obstaclesAndWeapons(obstacles, weapons) {
 
     cantMove.push(addObstacles.id);
   }
-  // console.log(cantMove);
 
   let boxesWithoutObstacles = [...boxes];
-  // console.log(boxesWithoutObstacles.length);
 
   let weaponImages = [
     'img/w1_pipe.png',
@@ -411,11 +405,14 @@ function fight() {
       playerOneFightButtons.style.display = 'none';
       playerTwoFightButtons.style.display = 'block';
       // switchPlayerForFight();
-      passivePlayer = playerTwo;
       activePlayer = playerOne;
+      passivePlayer = playerTwo;
       console.log(passivePlayer);
+      fight();
     });
-  } else if (passivePlayer === playerTwo) {
+  }
+
+  if (passivePlayer === playerTwo) {
     playerTwoFightButtons.style.display = 'block';
     playerTwoAttackButton.addEventListener('click', function() {
       console.log('Test2');
@@ -423,10 +420,11 @@ function fight() {
       playerOnePowerDOM.textContent = playerOne.power;
       playerTwoFightButtons.style.display = 'none';
       playerOneFightButtons.style.display = 'block';
-      passivePlayer = playerOne;
       activePlayer = playerTwo;
+      passivePlayer = playerOne;
       // switchPlayerForFight();
       console.log(passivePlayer);
+      fight();
     });
   }
 }
