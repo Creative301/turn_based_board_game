@@ -26,6 +26,8 @@ let playerOneX,
   playerTwoAttackButton,
   playerTwoDefendButton;
 
+// let weapons = [];
+
 addBoxClass = document.getElementsByClassName('col');
 playerOnePowerDOM = document.getElementById('power_1');
 playerTwoPowerDOM = document.getElementById('power_2');
@@ -67,8 +69,8 @@ playerTwoY = randomPositionNumbers[3];
 
 playerOnePosition = `#${playerOneX}_${playerOneY}`;
 playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
-console.log(playerOnePosition);
-console.log(playerTwoPosition);
+// console.log(playerOnePosition);
+// console.log(playerTwoPosition);
 
 function drawBoard() {
   // Create the grid
@@ -113,7 +115,7 @@ function drawBoard() {
 
   allowedtoMove();
   adjacent();
-  obstaclesAndWeapons(20, 4);
+  obstaclesAndWeapons(20, weapons);
   disableMove();
 }
 
@@ -134,6 +136,8 @@ class Player {
     this.power = power;
     this.weapon = weapon;
     this.weaponDamage = weaponDamage;
+    this.oldWeapon = '';
+    this.currentWeapon = '';
     this.activeBox = activeBox;
     this.hoverBox = hoverBox;
     this.position = {
@@ -141,6 +145,10 @@ class Player {
       y: y
     };
     this.positionID = positionID;
+  }
+
+  getCurrentPosition() {
+    return `#${this.position.x}_${this.position.y}`;
   }
 }
 
@@ -170,9 +178,30 @@ let playerTwo = new Player(
   playerTwoPosition
 );
 
+// Weapon class -> grid.js 366
+/* class Weapon {
+  constructor(name, src, damage, cssClass) {
+    this.name = name;
+    this.src = src;
+    this.damage = damage;
+    this.cssClass = cssClass;
+    weapons.push(this);
+  }
+}
+
+let weapon_1 = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'weapon_1');
+let weapon_2 = new Weapon('Reinforced Pipe', 'img/w2_pipeStand.png', 20, 'weapon_2');
+let weapon_3 = new Weapon('Metal', 'img/w3_metal.png', 25, 'weapon_3');
+let weapon_4 = new Weapon('Barrel', 'img/w3_metal.png', 30, 'weapon_4'); */
+
+// console.log(weapon_1.cssClass);
+// console.log(weapons);
+
 let numberOfRound, activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
+
+// console.log(playerOne.getCurrentPosition());
 
 (function($, window, document) {
   $(function() {

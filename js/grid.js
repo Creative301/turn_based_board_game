@@ -1,3 +1,6 @@
+let weapons = [];
+let cantMove = [];
+
 class Grid {
   constructor(selector, rows, cols) {
     this.rows = rows;
@@ -42,17 +45,38 @@ class Grid {
       }
     });
 
+    // Limit the player movement
     $board.on('click', '.canMove', movement);
   }
 }
 
-let cantMove = [];
+class Weapon {
+  constructor(name, src, damage, cssClass) {
+    this.name = name;
+    this.src = src;
+    this.damage = damage;
+    this.cssClass = cssClass;
+    weapons.push(this);
+  }
+}
+
+let weapon_1 = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'weapon_1');
+let weapon_2 = new Weapon('Reinforced Pipe', 'img/w2_pipeStand.png', 20, 'weapon_2');
+let weapon_3 = new Weapon('Metal', 'img/w3_metal.png', 25, 'weapon_3');
+let weapon_4 = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'weapon_4');
+
+// console.log(weapons);
 
 // Player movement
 function movement() {
   selectCol = $(this).data('col');
   selectRow = $(this).data('row');
   selectedColRow = `#${selectCol}_${selectRow}`;
+
+  oldPosition = activePlayer.getCurrentPosition();
+  newPosition = selectedColRow;
+  // console.log(oldPosition);
+  // console.log(newPosition);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
@@ -82,8 +106,8 @@ function movement() {
   // Add weapon
   if ($(this).hasClass('weapon_1')) {
     $('.weapon_1').css('background', '');
-    activePlayer.weapon = 'Pipe';
-    activePlayer.weaponDamage = 15;
+    activePlayer.weapon = weapon_1.name;
+    activePlayer.weaponDamage = weapon_1.damage;
     console.log(activePlayer.weaponDamage);
     if (activePlayer === playerOne) {
       playerOneWeaponDOM.textContent = playerOne.weapon;
@@ -181,6 +205,7 @@ function allowedtoMove() {
     $(`#${currentColumn}_${currentRow + 3}`)
   ];
 
+  // Check if the player move over a box that contain a weapon
   allowedBoxes.forEach(function(box) {
     if (!box.hasClass('obstacles')) {
       box.addClass('canMove');
@@ -188,16 +213,13 @@ function allowedtoMove() {
   });
 }
 
-// Adjacent position
+// Get the adjacent position
 function adjacent() {
   let adjacentBoxes = [
-    $(`#${currentColumn + 1}_${currentRow - 1}`),
-    $(`#${currentColumn}_${currentRow - 1}`),
-    $(`#${currentColumn - 1}_${currentRow - 1}`),
-    $(`#${currentColumn - 1}_${currentRow}`),
-    $(`#${currentColumn}_${currentRow + 1}`),
-    $(`#${currentColumn + 1}_${currentRow}`),
-    $(`#${currentColumn + 1}_${currentRow + 1}`)
+    $(`#${currentColumn}_${currentRow - 1}`), // top
+    $(`#${currentColumn - 1}_${currentRow}`), // left
+    $(`#${currentColumn}_${currentRow + 1}`), // bottom
+    $(`#${currentColumn + 1}_${currentRow}`) // right
   ];
 
   adjacentBoxes.forEach(function(box) {
@@ -347,44 +369,37 @@ function obstaclesAndWeapons(obstacles, weapons) {
   }
 
   let boxesWithoutObstacles = [...boxes];
+  // console.log(boxesWithoutObstacles);
 
-  let weaponImages = [
-    'img/w1_pipe.png',
-    'img/w2_pipeStand.png',
-    'img/w3_metal.png',
-    'img/w4_barrel.png'
-  ];
-
-  // Add weapon class
-  for (let i = 0; i < weapons; i++) {
-    let weapons = ['weapon_1', 'weapon_2', 'weapon_3', 'weapon_4'];
-
+  // Add weapon
+  for (let i = 0; i < weapons.length; i++) {
     let generateRandomNumber = Math.floor(
       Math.random() * boxesWithoutObstacles.length
     );
 
     let addWeapons = boxesWithoutObstacles[generateRandomNumber];
     addWeapons.classList.add('weapon');
-    addWeapons.classList.add(weapons[i]);
+    addWeapons.classList.add(weapons[i].cssClass);
+    // console.log(weapons[i]);
 
     boxesWithoutObstacles.splice(generateRandomNumber, 1);
   }
 
   // Show weapons on the board
   document.querySelector('.weapon_1').style.backgroundImage = `url(
-    ${weaponImages[0]}
+    ${weapons[0].src}
   )`;
 
   document.querySelector('.weapon_2').style.backgroundImage = `url(
-    ${weaponImages[1]}
+    ${weapons[1].src}
   )`;
 
   document.querySelector('.weapon_3').style.backgroundImage = `url(
-    ${weaponImages[2]}
+    ${weapons[2].src}
   )`;
 
   document.querySelector('.weapon_4').style.backgroundImage = `url(
-    ${weaponImages[3]}
+    ${weapons[3].src}
   )`;
 }
 
