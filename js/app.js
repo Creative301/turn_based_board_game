@@ -1,33 +1,3 @@
-const rows = 10;
-const cols = 10;
-let playerOneX,
-  playerOneY,
-  playerTwoX,
-  playerTwoY,
-  playerOnePosition,
-  playerTwoPosition,
-  addBoxClass,
-  playerOnePowerDOM,
-  playerTwoPowerDOM,
-  playerOneWeaponDOM,
-  playerTwoWeaponDOM,
-  playerOneDamageDOM,
-  playerTwoDamageDOM,
-  boardDiv,
-  playerOneImg,
-  playerTwoImg,
-  versus,
-  playerOneFight,
-  playerTwoFight,
-  playerOneFightButtons,
-  playerTwoFightButtons,
-  playerOneAttackButton,
-  playerOneDefendButton,
-  playerTwoAttackButton,
-  playerTwoDefendButton;
-
-// let weapons = [];
-
 addBoxClass = document.getElementsByClassName('col');
 playerOnePowerDOM = document.getElementById('power_1');
 playerTwoPowerDOM = document.getElementById('power_2');
@@ -115,7 +85,7 @@ function drawBoard() {
 
   allowedtoMove();
   adjacent();
-  obstaclesAndWeapons(20, weapons);
+  obstaclesAndWeapons(15, weapons);
   disableMove();
 }
 
@@ -148,7 +118,8 @@ class Player {
   }
 
   getCurrentPosition() {
-    return `#${this.position.x}_${this.position.y}`;
+    // return `#${this.position.x}_${this.position.y}`;
+    return $('.' + this.activeBox).index('.col');
   }
 }
 
@@ -178,30 +149,12 @@ let playerTwo = new Player(
   playerTwoPosition
 );
 
-// Weapon class -> grid.js 366
-/* class Weapon {
-  constructor(name, src, damage, cssClass) {
-    this.name = name;
-    this.src = src;
-    this.damage = damage;
-    this.cssClass = cssClass;
-    weapons.push(this);
-  }
-}
-
-let weapon_1 = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'weapon_1');
-let weapon_2 = new Weapon('Reinforced Pipe', 'img/w2_pipeStand.png', 20, 'weapon_2');
-let weapon_3 = new Weapon('Metal', 'img/w3_metal.png', 25, 'weapon_3');
-let weapon_4 = new Weapon('Barrel', 'img/w3_metal.png', 30, 'weapon_4'); */
-
-// console.log(weapon_1.cssClass);
-// console.log(weapons);
-
 let numberOfRound, activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
 
 // console.log(playerOne.getCurrentPosition());
+// console.log(getCanMoveBoxes(playerOne.getCurrentPosition()));
 
 (function($, window, document) {
   $(function() {
