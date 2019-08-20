@@ -85,7 +85,7 @@ function drawBoard() {
 
   allowedtoMove();
   adjacent();
-  obstaclesAndWeapons(15, weapons);
+  obstaclesAndWeapons(10, weapons);
   disableMove();
 }
 
@@ -106,7 +106,6 @@ class Player {
     this.power = power;
     this.weapon = weapon;
     this.weaponDamage = weaponDamage;
-    this.oldWeapon = '';
     this.currentWeapon = '';
     this.activeBox = activeBox;
     this.hoverBox = hoverBox;
@@ -118,8 +117,11 @@ class Player {
   }
 
   getCurrentPosition() {
-    // return `#${this.position.x}_${this.position.y}`;
     return $('.' + this.activeBox).index('.col');
+  }
+
+  reduceOpponentPower(player) {
+    return (player.power -= this.weaponDamage);
   }
 }
 
@@ -149,7 +151,7 @@ let playerTwo = new Player(
   playerTwoPosition
 );
 
-let numberOfRound, activePlayer, passivePlayer, box, winner, loser;
+let activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
 

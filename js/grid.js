@@ -96,22 +96,20 @@ let weapon_4 = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'weapon_4');
 
 // Player movement
 function movement() {
+  // console.log(activePlayer);
+
   selectCol = $(this).data('col');
   selectRow = $(this).data('row');
   selectedColRow = `#${selectCol}_${selectRow}`;
 
   oldPosition = activePlayer.getCurrentPosition();
   newPosition = $(this).index('.col');
-  console.log(oldPosition);
-  console.log(newPosition);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
 
   // Remove the player allowed class when the player move to another box
   $(this).removeClass(activePlayer.hoverBox);
-
-  // $(this).removeClass('canMove');
 
   // Show the player on the new box that was clicked
   $(this).addClass(activePlayer.activeBox);
@@ -130,69 +128,6 @@ function movement() {
   playerOnePosition = `#${playerOne.position.x}_${playerOne.position.y}`;
   playerTwoPosition = `#${playerTwo.position.x}_${playerTwo.position.y}`;
 
-  // Player leave the first weapon (when leaving a box) when the player picked up a new weapon
-  if (
-    $('.col:eq(' + oldPosition + ')').hasClass('weapon') &&
-    activePlayer.oldWeapon !== ''
-  ) {
-    $('.col:eq(' + oldPosition + ')').attr('src', activePlayer.oldWeapon.src);
-  }
-
-  // Add a weapon when the player moved to a new box with a weapon class
-  if ($(this).hasClass('weapon_1')) {
-    $('.weapon_1').css('background', '');
-    activePlayer.weapon = weapon_1.name;
-    activePlayer.weaponDamage = weapon_1.damage;
-    console.log(activePlayer.weaponDamage);
-    if (activePlayer === playerOne) {
-      playerOneWeaponDOM.textContent = playerOne.weapon;
-      playerOneDamageDOM.textContent = playerOne.weaponDamage;
-    }
-    if (activePlayer === playerTwo) {
-      playerTwoWeaponDOM.textContent = playerTwo.weapon;
-      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
-    }
-  } else if ($(this).hasClass('weapon_2')) {
-    $('.weapon_2').css('background', '');
-    activePlayer.weapon = 'Reinforced Pipe';
-    activePlayer.weaponDamage = 20;
-    // console.log(activePlayer.weaponDamage);
-    if (activePlayer === playerOne) {
-      playerOneWeaponDOM.textContent = playerOne.weapon;
-      playerOneDamageDOM.textContent = playerOne.weaponDamage;
-    }
-    if (activePlayer === playerTwo) {
-      playerTwoWeaponDOM.textContent = playerTwo.weapon;
-      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
-    }
-  } else if ($(this).hasClass('weapon_3')) {
-    $('.weapon_3').css('background', '');
-    activePlayer.weapon = 'Metal';
-    activePlayer.weaponDamage = 25;
-    // console.log(activePlayer.weaponDamage);
-    if (activePlayer === playerOne) {
-      playerOneWeaponDOM.textContent = playerOne.weapon;
-      playerOneDamageDOM.textContent = playerOne.weaponDamage;
-    }
-    if (activePlayer === playerTwo) {
-      playerTwoWeaponDOM.textContent = playerTwo.weapon;
-      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
-    }
-  } else if ($(this).hasClass('weapon_4')) {
-    $('.weapon_4').css('background', '');
-    activePlayer.weapon = 'Barrel';
-    activePlayer.weaponDamage = 30;
-    console.log(activePlayer.weaponDamage);
-    if (activePlayer === playerOne) {
-      playerOneWeaponDOM.textContent = playerOne.weapon;
-      playerOneDamageDOM.textContent = playerOne.weaponDamage;
-    }
-    if (activePlayer === playerTwo) {
-      playerTwoWeaponDOM.textContent = playerTwo.weapon;
-      playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
-    }
-  }
-
   switchPlayer();
 
   currentColumn = activePlayer.position.x;
@@ -204,22 +139,22 @@ function movement() {
 
   // Check weapon position
   if (newPosition - oldPosition < 4 && newPosition - oldPosition > 0) {
-    console.log('Right');
+    // console.log('Right');
     for (i = 1; i <= newPosition - oldPosition; i++) {
       checkWeapons(activePlayer, oldPosition + i);
     }
   } else if (newPosition - oldPosition < 0 && newPosition - oldPosition > -4) {
-    console.log('Left');
+    // console.log('Left');
     for (i = -1; i >= newPosition - oldPosition; i--) {
       checkWeapons(activePlayer, oldPosition + i);
     }
   } else if (newPosition - oldPosition >= cols) {
-    console.log('Down');
+    // console.log('Down');
     for (i = cols; i <= newPosition - oldPosition; i += cols) {
       checkWeapons(activePlayer, oldPosition + i);
     }
   } else {
-    console.log('Up');
+    // console.log('Up');
     for (i = -cols; i >= newPosition - oldPosition; i -= cols) {
       checkWeapons(activePlayer, oldPosition + i);
     }
@@ -230,6 +165,7 @@ function movement() {
 
   // Fight if the players position are adjacent
   if ($(this).hasClass('adjacent')) {
+    switchPlayerForFight();
     fight();
   }
 }
@@ -245,6 +181,18 @@ function switchPlayer() {
   }
 }
 
+// Switch the player for fight
+function switchPlayerForFight() {
+  if (passivePlayer === playerOne) {
+    activePlayer = playerOne;
+    passivePlayer = playerTwo;
+  } else {
+    activePlayer = playerTwo;
+    passivePlayer = playerOne;
+  }
+}
+
+// Add a weapon when the player moved over to a new box with a weapon class
 function checkWeapons(player, position) {
   $.each(weapons, function(index, weapon) {
     if ($('.col:eq(' + position + ')').hasClass(weapon.cssClass)) {
@@ -252,30 +200,21 @@ function checkWeapons(player, position) {
         .removeClass(weapon.cssClass)
         .removeClass('weapon')
         .css('background', '');
-      console.log('true');
-
-      // if there is a current weapon, it becomes old weapon
-      player.oldWeapon = player.currentWeapon;
-
-      // Get the up second or the next weapon, leaving old weapon on the box
-      if (player.oldWeapon !== '') {
-        $('.col:eq(' + position + ')')
-          .addClass(player.oldWeapon.cssClass)
-          .addClass('weapon');
-        $('.col:eq(' + position + ')').attr('src', player.oldWeapon.src);
-      }
+      // console.log('true');
 
       // Update the player data to match the new weapon
-      // $(player.weapon).text(weapon.name);
-      `${activePlayer}WeaponDOM`.textContent = weapon.name;
-
-      `${activePlayer}DamageDOM`.textContent = weapon.damage;
-      // $(player.weaponDamage).text(weapon.damage);
-
       if (player === playerOne) {
-        playerOne.currentWeapon = weapon;
+        playerTwo.currentWeapon = weapon.name;
+        playerTwo.weaponDamage = weapon.damage;
+        playerTwoWeaponDOM.textContent = playerTwo.currentWeapon;
+        playerTwoDamageDOM.textContent = weapon.damage;
+        console.log(playerTwo.weapon);
       } else {
-        playerTwo.currentWeapon = weapon;
+        playerOne.currentWeapon = weapon.name;
+        playerOne.weaponDamage = weapon.damage;
+        playerOneDamageDOM.textContent = weapon.damage;
+        playerOneWeaponDOM.textContent = playerOne.currentWeapon;
+        // console.log(playerOne.weapon);
       }
       return false;
     }
@@ -284,7 +223,6 @@ function checkWeapons(player, position) {
 
 // Limit the player movement
 function allowedtoMove() {
-  // let availableBoxes = [];
   /* Limit movement to 3 columns and 3 rows 
   Horizontal and vertical */
   let allowedBoxes = [
@@ -508,46 +446,40 @@ function fight() {
   playerOneFight.style.display = 'block';
   playerTwoFight.style.display = 'block';
 
-  if (passivePlayer === playerOne) {
+  playerOneAttack();
+  playerTwoAttack();
+}
+
+function playerOneAttack() {
+  if (activePlayer === playerOne) {
     playerOneFightButtons.style.display = 'block';
     playerOneAttackButton.addEventListener('click', function() {
-      console.log('Test1');
-      playerTwo.power -= playerOne.weaponDamage;
+      playerOne.reduceOpponentPower(playerTwo);
+      console.log(playerTwo.power);
       playerTwoPowerDOM.textContent = playerTwo.power;
       playerOneFightButtons.style.display = 'none';
       playerTwoFightButtons.style.display = 'block';
-      // switchPlayerForFight();
-      activePlayer = playerOne;
-      passivePlayer = playerTwo;
-      console.log(passivePlayer);
-      fight();
-    });
-  }
-
-  if (passivePlayer === playerTwo) {
-    playerTwoFightButtons.style.display = 'block';
-    playerTwoAttackButton.addEventListener('click', function() {
-      console.log('Test2');
-      playerOne.power -= playerTwo.weaponDamage;
-      playerOnePowerDOM.textContent = playerOne.power;
-      playerTwoFightButtons.style.display = 'none';
-      playerOneFightButtons.style.display = 'block';
       activePlayer = playerTwo;
       passivePlayer = playerOne;
-      // switchPlayerForFight();
-      console.log(passivePlayer);
+      // console.log(playerOne.weaponDamage);
       fight();
     });
   }
 }
 
-// Switch the player for the fight
-// function switchPlayerForFight() {
-//   if (passivePlayer === playerOne) {
-//     passivePlayer = playerTwo;
-//     activePlayer = playerOne;
-//   } else {
-//     passivePlayer = playerOne;
-//     activePlayer = playerTwo;
-//   }
-// }
+function playerTwoAttack() {
+  if (activePlayer === playerTwo) {
+    playerTwoFightButtons.style.display = 'block';
+    playerTwoAttackButton.addEventListener('click', function() {
+      playerTwo.reduceOpponentPower(playerOne);
+      console.log(playerOne.power);
+      playerOnePowerDOM.textContent = playerOne.power;
+      playerTwoFightButtons.style.display = 'none';
+      playerOneFightButtons.style.display = 'block';
+      activePlayer = playerOne;
+      passivePlayer = playerTwo;
+      // console.log(playerTwo.weaponDamage);
+      fight();
+    });
+  }
+}
