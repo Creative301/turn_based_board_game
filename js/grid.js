@@ -453,7 +453,10 @@ function fight() {
 function playerOneAttack() {
   if (activePlayer === playerOne) {
     playerOneFightButtons.style.display = 'block';
-    playerOneAttackButton.addEventListener('click', function() {
+
+    // Create own function
+    function attackPlayerTwo() {
+      // Check the opponent power
       playerOne.reduceOpponentPower(playerTwo);
       console.log(playerTwo.power);
       playerTwoPowerDOM.textContent = playerTwo.power;
@@ -462,15 +465,20 @@ function playerOneAttack() {
       activePlayer = playerTwo;
       passivePlayer = playerOne;
       // console.log(playerOne.weaponDamage);
+      // Remove the event listener function
+      playerOneAttackButton.removeEventListener('click', attackPlayerTwo, true);
       fight();
-    });
+    }
+
+    playerOneAttackButton.addEventListener('click', attackPlayerTwo, true);
   }
 }
 
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
     playerTwoFightButtons.style.display = 'block';
-    playerTwoAttackButton.addEventListener('click', function() {
+
+    function attackPlayerOne() {
       playerTwo.reduceOpponentPower(playerOne);
       console.log(playerOne.power);
       playerOnePowerDOM.textContent = playerOne.power;
@@ -479,7 +487,16 @@ function playerTwoAttack() {
       activePlayer = playerOne;
       passivePlayer = playerTwo;
       // console.log(playerTwo.weaponDamage);
+      playerTwoAttackButton.removeEventListener('click', attackPlayerOne, true);
       fight();
-    });
+    }
+
+    playerTwoAttackButton.addEventListener('click', attackPlayerOne, true);
   }
 }
+
+// Optimization to store event listener
+// has listener  true or false
+
+// css transition
+// remove event listener

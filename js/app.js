@@ -121,6 +121,7 @@ class Player {
   }
 
   reduceOpponentPower(player) {
+    // check the player power
     return (player.power -= this.weaponDamage);
   }
 }
