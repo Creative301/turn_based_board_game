@@ -19,8 +19,10 @@ playerOneDefendButton = $('#defend_1');
 playerTwoAttackButton = $('#attack_2');
 playerTwoDefendButton = $('#defend_2');
 
-let playerOneSrc = 'img/PlayerOne.png';
-let playerTwoSrc = 'img/PlayerTwo.png';
+winnerWindow = $('#winner');
+
+let playerOneSrc = 'img/playerOneWin.png';
+let playerTwoSrc = 'img/playerTwoWin.png';
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -49,6 +51,10 @@ playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
 function drawBoard() {
   // Create the grid
   const grid = new Grid('#board', rows, cols);
+
+  // Reset player data
+  playerOne.resetPlayerData();
+  playerTwo.resetPlayerData();
 
   playerOnePowerDOM.textContent = playerOne.power;
   playerTwoPowerDOM.textContent = playerTwo.power;
@@ -129,6 +135,12 @@ class Player {
     return $('.' + this.activeBox).index('.col');
   }
 
+  resetPlayerData() {
+    this.currentWeapon = '';
+    this.power = 100;
+    this.weaponDamage = 10;
+  }
+
   reduceOpponentPower(player) {
     // check the player power
     return (player.power -= this.weaponDamage);
@@ -168,14 +180,18 @@ let playerTwo = new Player(
 let activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
-// console.log(playerOne.playerOneSrc);
 
-// document.querySelector('.playerOneActive').style.backgroundImage = `url(
-//   ${playerOne.playerOneSrc}
-// )`;
-
-// console.log(playerOne.getCurrentPosition());
 // console.log(getCanMoveBoxes(playerOne.getCurrentPosition()));
+
+function playAgain() {
+  console.log('play again');
+
+  $('#playAgainBtn').on('click', function() {
+    $('#winner').remove();
+  });
+
+  drawBoard();
+}
 
 (function($, window, document) {
   $(function() {

@@ -26,7 +26,8 @@ let playerOneX,
   playerOneAttackButton,
   playerOneDefendButton,
   playerTwoAttackButton,
-  playerTwoDefendButton;
+  playerTwoDefendButton,
+  winnerWindow;
 
 class Grid {
   constructor(selector, rows, cols) {
@@ -475,7 +476,7 @@ function reducePower(activePlayer, passivePlayer) {
       passivePlayer.power -= 5;
       passivePlayer.isDefending = false;
     } else {
-      passivePlayer.power -= 10;
+      passivePlayer.power -= 50;
     }
   } else {
     if (passivePlayer.isDefending === true) {
@@ -576,9 +577,28 @@ function switchToPlayerOne() {
 
 function checkWin() {
   if (passivePlayer.power <= 0) {
-    function showAlert() {
-      alert(`${activePlayer.name} win!`);
+    // alert(`${activePlayer.name} win!`);
+    function showWinner() {
+      // The winner has switched to a passivePlayer
+      $('#winner').css('display', 'block');
+
+      $('#winner').append(
+        `<h1 id=message>And the winner is:</h1>
+        <h2>${passivePlayer.name}</h2>`
+      );
+
+      $(
+        '<section id=winnerImg><img src =' +
+          passivePlayer.src +
+          ' width=150px></section>'
+      ).appendTo('#winner');
+
+      $('#winner').append(
+        '<section id=playAgain><button class=btn id=playAgainBtn>Play Again</button></section>'
+      );
+      playAgain();
+      // alert(`${passivePlayer.name} win!`);
     }
-    setTimeout(showAlert, 1000);
+    setTimeout(showWinner, 1000);
   }
 }
