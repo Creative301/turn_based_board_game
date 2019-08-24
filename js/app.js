@@ -13,10 +13,14 @@ playerOneFight = document.getElementById('player_1_fight');
 playerTwoFight = document.getElementById('player_2_fight');
 playerOneFightButtons = document.getElementById('fight_buttons_1');
 playerTwoFightButtons = document.getElementById('fight_buttons_2');
-playerOneAttackButton = document.getElementById('attack_1');
-playerOneDefendButton = document.getElementById('defend_1');
-playerTwoAttackButton = document.getElementById('attack_2');
-playerTwoDefendButton = document.getElementById('defend_2');
+
+playerOneAttackButton = $('#attack_1');
+playerOneDefendButton = $('#defend_1');
+playerTwoAttackButton = $('#attack_2');
+playerTwoDefendButton = $('#defend_2');
+
+let playerOneSrc = 'img/PlayerOne.png';
+let playerTwoSrc = 'img/PlayerTwo.png';
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -68,7 +72,7 @@ function drawBoard() {
   currentColumn = playerOneX;
 
   $('div').removeClass(
-    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn weapon_1 weapon_2 weapon_3 weapon_4'
+    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
   );
 
   $('div', '#board').addClass('vacant');
@@ -92,6 +96,8 @@ function drawBoard() {
 // Player class
 class Player {
   constructor(
+    src,
+    cssClass,
     name,
     power,
     weapon,
@@ -102,11 +108,14 @@ class Player {
     y,
     positionID
   ) {
+    this.src = src;
+    this.cssClass = cssClass;
     this.name = name;
     this.power = power;
     this.weapon = weapon;
     this.weaponDamage = weaponDamage;
     this.currentWeapon = '';
+    this.oldWeapon = '';
     this.activeBox = activeBox;
     this.hoverBox = hoverBox;
     this.position = {
@@ -128,6 +137,8 @@ class Player {
 
 // Instantiate player one object
 let playerOne = new Player(
+  playerOneSrc,
+  'playerOne',
   'Maverick',
   100,
   'Laser',
@@ -141,6 +152,8 @@ let playerOne = new Player(
 
 // Instantiate player two object
 let playerTwo = new Player(
+  playerTwoSrc,
+  'playerTwo',
   'Viper',
   100,
   'Laser',
@@ -155,6 +168,11 @@ let playerTwo = new Player(
 let activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
 let obstacles = [];
+// console.log(playerOne.playerOneSrc);
+
+// document.querySelector('.playerOneActive').style.backgroundImage = `url(
+//   ${playerOne.playerOneSrc}
+// )`;
 
 // console.log(playerOne.getCurrentPosition());
 // console.log(getCanMoveBoxes(playerOne.getCurrentPosition()));

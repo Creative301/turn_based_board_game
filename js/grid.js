@@ -87,12 +87,13 @@ class Weapon {
   }
 }
 
-let weapon_1 = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'weapon_1');
-let weapon_2 = new Weapon('Reinforced Pipe', 'img/w2_pipeStand.png', 20, 'weapon_2');
-let weapon_3 = new Weapon('Metal', 'img/w3_metal.png', 25, 'weapon_3');
-let weapon_4 = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'weapon_4');
+let pipe = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'pipe');
+let antenna = new Weapon('Antenna', 'img/w2_antenna.png', 20, 'antenna');
+let metal = new Weapon('Metal', 'img/w3_metal.png', 25, 'metal');
+let barrel = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'barrel');
 
 // console.log(weapons);
+// console.log(pipe.cssClass);
 
 // Player movement
 function movement() {
@@ -141,22 +142,22 @@ function movement() {
   if (newPosition - oldPosition < 4 && newPosition - oldPosition > 0) {
     // console.log('Right');
     for (i = 1; i <= newPosition - oldPosition; i++) {
-      checkWeapons(activePlayer, oldPosition + i);
+      checkWeapons(passivePlayer, oldPosition + i);
     }
   } else if (newPosition - oldPosition < 0 && newPosition - oldPosition > -4) {
     // console.log('Left');
     for (i = -1; i >= newPosition - oldPosition; i--) {
-      checkWeapons(activePlayer, oldPosition + i);
+      checkWeapons(passivePlayer, oldPosition + i);
     }
   } else if (newPosition - oldPosition >= cols) {
     // console.log('Down');
     for (i = cols; i <= newPosition - oldPosition; i += cols) {
-      checkWeapons(activePlayer, oldPosition + i);
+      checkWeapons(passivePlayer, oldPosition + i);
     }
   } else {
     // console.log('Up');
     for (i = -cols; i >= newPosition - oldPosition; i -= cols) {
-      checkWeapons(activePlayer, oldPosition + i);
+      checkWeapons(passivePlayer, oldPosition + i);
     }
   }
 
@@ -201,21 +202,37 @@ function checkWeapons(player, position) {
         .removeClass('weapon')
         .css('background', '');
       // console.log('true');
+      // console.log(weapon);
+
+      // If there is a current weapon, it becomes old weapon
+      player.oldWeapon = player.currentWeapon;
+
+      // Get the second or the next weapon, leaving old weapon on the box
+      if (player.oldWeapon !== '') {
+        console.log(player.oldWeapon);
+        // weapon = player.oldWeapon;
+        console.log(weapon.cssClass);
+        $('.col:eq(' + position + ')')
+          .addClass('weapon')
+          .addClass(player.oldWeapon.cssClass);
+        // console.log('true', player.oldWeapon.activeBox);
+      }
 
       // Update the player data to match the new weapon
       if (player === playerOne) {
-        playerTwo.currentWeapon = weapon.name;
-        playerTwo.weaponDamage = weapon.damage;
-        playerTwoWeaponDOM.textContent = playerTwo.currentWeapon;
-        playerTwoDamageDOM.textContent = weapon.damage;
-        console.log(playerTwo.weapon);
-      } else {
-        playerOne.currentWeapon = weapon.name;
+        playerOne.currentWeapon = weapon.cssClass;
         playerOne.weaponDamage = weapon.damage;
         playerOneDamageDOM.textContent = weapon.damage;
         playerOneWeaponDOM.textContent = playerOne.currentWeapon;
         // console.log(playerOne.weapon);
+      } else {
+        playerTwo.currentWeapon = weapon.cssClass;
+        playerTwo.weaponDamage = weapon.damage;
+        playerTwoWeaponDOM.textContent = playerTwo.currentWeapon;
+        playerTwoDamageDOM.textContent = weapon.damage;
+        // console.log(playerTwo.weapon);
       }
+
       return false;
     }
   });
@@ -406,7 +423,7 @@ function obstaclesAndWeapons(obstacles, weapons) {
   let boxesWithoutObstacles = [...boxes];
   // console.log(boxesWithoutObstacles);
 
-  // Add weapon
+  // Add weapons
   for (let i = 0; i < weapons.length; i++) {
     let generateRandomNumber = Math.floor(
       Math.random() * boxesWithoutObstacles.length
@@ -421,19 +438,19 @@ function obstaclesAndWeapons(obstacles, weapons) {
   }
 
   // Show weapons on the board
-  document.querySelector('.weapon_1').style.backgroundImage = `url(
+  document.querySelector('.pipe').style.backgroundImage = `url(
     ${weapons[0].src}
   )`;
 
-  document.querySelector('.weapon_2').style.backgroundImage = `url(
+  document.querySelector('.antenna').style.backgroundImage = `url(
     ${weapons[1].src}
   )`;
 
-  document.querySelector('.weapon_3').style.backgroundImage = `url(
+  document.querySelector('.metal').style.backgroundImage = `url(
     ${weapons[2].src}
   )`;
 
-  document.querySelector('.weapon_4').style.backgroundImage = `url(
+  document.querySelector('.barrel').style.backgroundImage = `url(
     ${weapons[3].src}
   )`;
 }
@@ -447,56 +464,121 @@ function fight() {
   playerTwoFight.style.display = 'block';
 
   playerOneAttack();
+  playerOneDefend();
   playerTwoAttack();
+  playerTwoDefend();
+}
+
+function reducePower(activePlayer, passivePlayer) {
+  if (activePlayer.currentWeapon === '') {
+    if (passivePlayer.isDefending === true) {
+      passivePlayer.power -= 5;
+      passivePlayer.isDefending = false;
+    } else {
+      passivePlayer.power -= 10;
+    }
+  } else {
+    if (passivePlayer.isDefending === true) {
+      passivePlayer.power -= activePlayer.weaponDamage / 2;
+      passivePlayer.isDefending = false;
+    } else {
+      passivePlayer.power -= activePlayer.weaponDamage;
+    }
+  }
 }
 
 function playerOneAttack() {
   if (activePlayer === playerOne) {
     playerOneFightButtons.style.display = 'block';
+    playerOne.isDefending = false;
 
     // Create own function
     function attackPlayerTwo() {
       // Check the opponent power
-      playerOne.reduceOpponentPower(playerTwo);
-      console.log(playerTwo.power);
+      // playerOne.reduceOpponentPower(playerTwo);
+      reducePower(playerOne, playerTwo);
       playerTwoPowerDOM.textContent = playerTwo.power;
-      playerOneFightButtons.style.display = 'none';
-      playerTwoFightButtons.style.display = 'block';
-      activePlayer = playerTwo;
-      passivePlayer = playerOne;
-      // console.log(playerOne.weaponDamage);
+      switchToPlayerTwo();
+
       // Remove the event listener function
-      playerOneAttackButton.removeEventListener('click', attackPlayerTwo, true);
+      playerOneAttackButton.off('click');
+      playerOneDefendButton.off('click');
       fight();
     }
 
-    playerOneAttackButton.addEventListener('click', attackPlayerTwo, true);
+    playerOneAttackButton.on('click', attackPlayerTwo);
   }
+}
+
+function playerOneDefend() {
+  if (activePlayer === playerOne) {
+    function oneDefend() {
+      playerOne.isDefending = true;
+      console.log('true 1');
+      switchToPlayerTwo();
+      playerOneAttackButton.off('click');
+      playerOneDefendButton.off('click');
+      fight();
+    }
+  }
+  playerOneDefendButton.on('click', oneDefend);
+}
+
+function switchToPlayerTwo() {
+  checkWin();
+  activePlayer = playerTwo;
+  passivePlayer = playerOne;
+  playerOneFightButtons.style.display = 'none';
+  playerTwoFightButtons.style.display = 'block';
 }
 
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
     playerTwoFightButtons.style.display = 'block';
+    playerTwo.isDefending = false;
 
     function attackPlayerOne() {
-      playerTwo.reduceOpponentPower(playerOne);
-      console.log(playerOne.power);
+      // playerTwo.reduceOpponentPower(playerOne);
+      reducePower(playerTwo, playerOne);
       playerOnePowerDOM.textContent = playerOne.power;
-      playerTwoFightButtons.style.display = 'none';
-      playerOneFightButtons.style.display = 'block';
-      activePlayer = playerOne;
-      passivePlayer = playerTwo;
-      // console.log(playerTwo.weaponDamage);
-      playerTwoAttackButton.removeEventListener('click', attackPlayerOne, true);
+      switchToPlayerOne();
+
+      playerTwoAttackButton.off('click');
+      playerTwoDefendButton.off('click');
       fight();
     }
-
-    playerTwoAttackButton.addEventListener('click', attackPlayerOne, true);
+    playerTwoAttackButton.on('click', attackPlayerOne);
   }
 }
 
-// Optimization to store event listener
-// has listener  true or false
+function playerTwoDefend() {
+  if (activePlayer === playerTwo) {
+    function twoDefend() {
+      playerTwo.isDefending = true;
+      console.log('true 2');
 
-// css transition
-// remove event listener
+      switchToPlayerOne();
+      playerTwoAttackButton.off('click');
+      playerTwoDefendButton.off('click');
+      fight();
+    }
+  }
+  playerTwoDefendButton.on('click', twoDefend);
+}
+
+function switchToPlayerOne() {
+  checkWin();
+  activePlayer = playerOne;
+  passivePlayer = playerTwo;
+  playerTwoFightButtons.style.display = 'none';
+  playerOneFightButtons.style.display = 'block';
+}
+
+function checkWin() {
+  if (passivePlayer.power <= 0) {
+    function showAlert() {
+      alert(`${activePlayer.name} win!`);
+    }
+    setTimeout(showAlert, 1000);
+  }
+}

@@ -101,10 +101,19 @@ body {
 }
 
 /* Weapons */
-.weapon_1,
+/* .weapon_1,
 .weapon_2,
 .weapon_3,
 .weapon_4 {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+} */
+
+.pipe,
+.antenna,
+.metal,
+.barrel {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -221,4 +230,8 @@ body {
 
 .button:hover:before {
   width: 100%;
+}
+
+.weapon {
+  background-color: lightgreen;
 }
