@@ -86,13 +86,8 @@ let antenna = new Weapon('Antenna', 'img/w2_antenna.png', 20, 'antenna');
 let metal = new Weapon('Metal', 'img/w3_metal.png', 25, 'metal');
 let barrel = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'barrel');
 
-// console.log(weapons);
-// console.log(pipe.cssClass);
-
 // Player movement
 function movement() {
-  // console.log(activePlayer);
-
   selectCol = $(this).data('col');
   selectRow = $(this).data('row');
   selectedColRow = `#${selectCol}_${selectRow}`;
@@ -195,36 +190,32 @@ function checkWeapons(player, position) {
         .removeClass(weapon.cssClass)
         .removeClass('weapon')
         .css('background', '');
-      // console.log('true');
-      // console.log(weapon);
 
       // If there is a current weapon, it becomes old weapon
       player.oldWeapon = player.currentWeapon;
 
       // Get the second or the next weapon, leaving old weapon on the box
       if (player.oldWeapon !== '') {
-        console.log(player.oldWeapon);
-        // weapon = player.oldWeapon;
-        console.log(weapon.cssClass);
         $('.col:eq(' + position + ')')
           .addClass('weapon')
           .addClass(player.oldWeapon.cssClass);
-        // console.log('true', player.oldWeapon.activeBox);
+        $('.col:eq(' + position + ')').css(
+          'background-image',
+          'url(' + player.oldWeapon.src + ')'
+        );
       }
 
       // Update the player data to match the new weapon
       if (player === playerOne) {
-        playerOne.currentWeapon = weapon.cssClass;
+        playerOne.currentWeapon = weapon;
         playerOne.weaponDamage = weapon.damage;
         playerOneDamageDOM.text(weapon.damage);
-        playerOneWeaponDOM.text(playerOne.currentWeapon);
-        // console.log(playerOne.weapon);
+        playerOneWeaponDOM.text(playerOne.currentWeapon.name);
       } else {
-        playerTwo.currentWeapon = weapon.cssClass;
+        playerTwo.currentWeapon = weapon;
         playerTwo.weaponDamage = weapon.damage;
-        playerTwoWeaponDOM.text(playerTwo.currentWeapon);
+        playerTwoWeaponDOM.text(playerTwo.currentWeapon.name);
         playerTwoDamageDOM.text(weapon.damage);
-        // console.log(playerTwo.weapon);
       }
 
       return false;
@@ -234,8 +225,10 @@ function checkWeapons(player, position) {
 
 // Limit the player movement
 function allowedtoMove() {
-  /* Limit movement to 3 columns and 3 rows 
-  Horizontal and vertical */
+  /* 
+  Limit movement to 3 columns and 3 rows 
+  Horizontal and vertical
+   */
   let allowedBoxes = [
     $(`#${currentColumn - 1}_${currentRow}`),
     $(`#${currentColumn - 2}_${currentRow}`),
@@ -415,7 +408,6 @@ function obstaclesAndWeapons(obstacles, weapons) {
   }
 
   let boxesWithoutObstacles = [...boxes];
-  // console.log(boxesWithoutObstacles);
 
   // Add weapons
   for (let i = 0; i < weapons.length; i++) {
@@ -426,7 +418,6 @@ function obstaclesAndWeapons(obstacles, weapons) {
     let addWeapons = boxesWithoutObstacles[generateRandomNumber];
     addWeapons.classList.add('weapon');
     addWeapons.classList.add(weapons[i].cssClass);
-    // console.log(weapons[i]);
 
     boxesWithoutObstacles.splice(generateRandomNumber, 1);
   }
@@ -570,7 +561,6 @@ function switchToPlayerOne() {
 
 function checkWin() {
   if (passivePlayer.power <= 0) {
-    // alert(`${activePlayer.name} win!`);
     function showWinner() {
       // The winner has switched to a passivePlayer
       $('#winner').css('display', 'block');
@@ -590,7 +580,6 @@ function checkWin() {
         '<section id=playAgain><button class=btn id=playAgainBtn>Play Again</button></section>'
       );
       playAgain();
-      // alert(`${passivePlayer.name} win!`);
     }
     setTimeout(showWinner, 1000);
   }

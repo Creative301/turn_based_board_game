@@ -47,7 +47,7 @@ function drawBoard() {
 
   const grid = new Grid('#board', rows, cols);
 
-  // Reset player data
+  // Reset the player data
   playerOne.resetPlayerData();
   playerTwo.resetPlayerData();
 
@@ -64,7 +64,8 @@ function drawBoard() {
 
   // Add box class for each col class
   for (let i = 0; i < addBoxClass.length; i++) {
-    addBoxClass[i].classList.add('box');
+    // addBoxClass[i].classList.add('box');
+    addBoxClass[i].addClass('box');
   }
 
   // Set the current player position
@@ -179,9 +180,6 @@ let playerTwo = new Player(
 );
 
 let boxes = document.getElementsByClassName('box');
-// let boxes = $('.box');
-
-// console.log(getCanMoveBoxes(playerOne.getCurrentPosition()));
 
 function playAgain() {
   console.log('play again');
