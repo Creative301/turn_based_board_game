@@ -15,19 +15,12 @@ let playerOneX,
   playerTwoWeaponDOM,
   playerOneDamageDOM,
   playerTwoDamageDOM,
-  boardDiv,
-  playerOneImg,
-  playerTwoImg,
-  versus,
-  playerOneFight,
-  playerTwoFight,
   playerOneFightButtons,
   playerTwoFightButtons,
   playerOneAttackButton,
   playerOneDefendButton,
   playerTwoAttackButton,
-  playerTwoDefendButton,
-  winnerWindow;
+  playerTwoDefendButton;
 
 class Grid {
   constructor(selector, rows, cols) {
@@ -223,14 +216,14 @@ function checkWeapons(player, position) {
       if (player === playerOne) {
         playerOne.currentWeapon = weapon.cssClass;
         playerOne.weaponDamage = weapon.damage;
-        playerOneDamageDOM.textContent = weapon.damage;
-        playerOneWeaponDOM.textContent = playerOne.currentWeapon;
+        playerOneDamageDOM.text(weapon.damage);
+        playerOneWeaponDOM.text(playerOne.currentWeapon);
         // console.log(playerOne.weapon);
       } else {
         playerTwo.currentWeapon = weapon.cssClass;
         playerTwo.weaponDamage = weapon.damage;
-        playerTwoWeaponDOM.textContent = playerTwo.currentWeapon;
-        playerTwoDamageDOM.textContent = weapon.damage;
+        playerTwoWeaponDOM.text(playerTwo.currentWeapon);
+        playerTwoDamageDOM.text(weapon.damage);
         // console.log(playerTwo.weapon);
       }
 
@@ -457,12 +450,12 @@ function obstaclesAndWeapons(obstacles, weapons) {
 }
 
 function fight() {
-  boardDiv.style.display = 'none';
-  playerOneImg.style.display = 'none';
-  playerTwoImg.style.display = 'none';
-  versus.style.display = 'block';
-  playerOneFight.style.display = 'block';
-  playerTwoFight.style.display = 'block';
+  $('#board').css('display', 'none');
+  $('#player_1_Img').css('display', 'none');
+  $('#player_2_Img').css('display', 'none');
+  $('#versus').css('display', 'block');
+  $('#player_1_fight').css('display', 'block');
+  $('#player_2_fight').css('display', 'block');
 
   playerOneAttack();
   playerOneDefend();
@@ -490,7 +483,7 @@ function reducePower(activePlayer, passivePlayer) {
 
 function playerOneAttack() {
   if (activePlayer === playerOne) {
-    playerOneFightButtons.style.display = 'block';
+    playerOneFightButtons.css('display', 'block');
     playerOne.isDefending = false;
 
     // Create own function
@@ -498,7 +491,7 @@ function playerOneAttack() {
       // Check the opponent power
       // playerOne.reduceOpponentPower(playerTwo);
       reducePower(playerOne, playerTwo);
-      playerTwoPowerDOM.textContent = playerTwo.power;
+      playerTwoPowerDOM.text(playerTwo.power);
       switchToPlayerTwo();
 
       // Remove the event listener function
@@ -529,19 +522,19 @@ function switchToPlayerTwo() {
   checkWin();
   activePlayer = playerTwo;
   passivePlayer = playerOne;
-  playerOneFightButtons.style.display = 'none';
-  playerTwoFightButtons.style.display = 'block';
+  playerOneFightButtons.css('display', 'none');
+  playerTwoFightButtons.css('display', 'block');
 }
 
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
-    playerTwoFightButtons.style.display = 'block';
+    playerTwoFightButtons.css('display', 'block');
     playerTwo.isDefending = false;
 
     function attackPlayerOne() {
       // playerTwo.reduceOpponentPower(playerOne);
       reducePower(playerTwo, playerOne);
-      playerOnePowerDOM.textContent = playerOne.power;
+      playerOnePowerDOM.text(playerOne.power);
       switchToPlayerOne();
 
       playerTwoAttackButton.off('click');
@@ -571,8 +564,8 @@ function switchToPlayerOne() {
   checkWin();
   activePlayer = playerOne;
   passivePlayer = playerTwo;
-  playerTwoFightButtons.style.display = 'none';
-  playerOneFightButtons.style.display = 'block';
+  playerTwoFightButtons.css('display', 'none');
+  playerOneFightButtons.css('display', 'block');
 }
 
 function checkWin() {

@@ -1,28 +1,23 @@
-addBoxClass = document.getElementsByClassName('col');
-playerOnePowerDOM = document.getElementById('power_1');
-playerTwoPowerDOM = document.getElementById('power_2');
-playerOneWeaponDOM = document.getElementById('weapon_1');
-playerTwoWeaponDOM = document.getElementById('weapon_2');
-playerOneDamageDOM = document.getElementById('damage_1');
-playerTwoDamageDOM = document.getElementById('damage_2');
-boardDiv = document.getElementById('board');
-playerOneImg = document.getElementById('player_1_Img');
-playerTwoImg = document.getElementById('player_2_Img');
-versus = document.getElementById('versus');
-playerOneFight = document.getElementById('player_1_fight');
-playerTwoFight = document.getElementById('player_2_fight');
-playerOneFightButtons = document.getElementById('fight_buttons_1');
-playerTwoFightButtons = document.getElementById('fight_buttons_2');
-
+addBoxClass = $('.col');
+playerOnePowerDOM = $('#power_1');
+playerTwoPowerDOM = $('#power_2');
+playerOneWeaponDOM = $('#weapon_1');
+playerTwoWeaponDOM = $('#weapon_2');
+playerOneDamageDOM = $('#damage_1');
+playerTwoDamageDOM = $('#damage_2');
+playerOneFightButtons = $('#fight_buttons_1');
+playerTwoFightButtons = $('#fight_buttons_2');
 playerOneAttackButton = $('#attack_1');
 playerOneDefendButton = $('#defend_1');
 playerTwoAttackButton = $('#attack_2');
 playerTwoDefendButton = $('#defend_2');
 
-winnerWindow = $('#winner');
-
 let playerOneSrc = 'img/playerOneWin.png';
 let playerTwoSrc = 'img/playerTwoWin.png';
+
+let activePlayer, passivePlayer;
+
+let obstacles = [];
 
 // Generate random number for the player position
 let randomPositionNumbers = [];
@@ -45,23 +40,23 @@ playerTwoY = randomPositionNumbers[3];
 
 playerOnePosition = `#${playerOneX}_${playerOneY}`;
 playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
-// console.log(playerOnePosition);
-// console.log(playerTwoPosition);
 
 function drawBoard() {
   // Create the grid
+  // console.log(rows, cols);
+
   const grid = new Grid('#board', rows, cols);
 
   // Reset player data
   playerOne.resetPlayerData();
   playerTwo.resetPlayerData();
 
-  playerOnePowerDOM.textContent = playerOne.power;
-  playerTwoPowerDOM.textContent = playerTwo.power;
-  playerOneWeaponDOM.textContent = playerOne.weapon;
-  playerTwoWeaponDOM.textContent = playerTwo.weapon;
-  playerOneDamageDOM.textContent = playerOne.weaponDamage;
-  playerTwoDamageDOM.textContent = playerTwo.weaponDamage;
+  playerOnePowerDOM.text(playerOne.power);
+  playerTwoPowerDOM.text(playerTwo.power);
+  playerOneWeaponDOM.text(playerOne.weapon);
+  playerTwoWeaponDOM.text(playerTwo.weapon);
+  playerOneDamageDOM.text(playerOne.weaponDamage);
+  playerTwoDamageDOM.text(playerTwo.weaponDamage);
 
   // Set the active player
   activePlayer = playerOne;
@@ -69,7 +64,6 @@ function drawBoard() {
 
   // Add box class for each col class
   for (let i = 0; i < addBoxClass.length; i++) {
-    // console.log(addBoxClass[i]);
     addBoxClass[i].classList.add('box');
   }
 
@@ -82,6 +76,13 @@ function drawBoard() {
   );
 
   $('div', '#board').addClass('vacant');
+
+  $('#board').css('display', 'block');
+  $('#player_1_Img').css('display', 'block');
+  $('#player_2_Img').css('display', 'block');
+  $('#versus').css('display', 'none');
+  $('#player_1_fight').css('display', 'none');
+  $('#player_2_fight').css('display', 'none');
 
   // Add class to the active player and remove the box class
   $(playerOnePosition)
@@ -153,7 +154,7 @@ let playerOne = new Player(
   'playerOne',
   'Maverick',
   100,
-  'Laser',
+  'laser',
   10,
   'playerOneActive',
   'playerOneAllowed',
@@ -168,7 +169,7 @@ let playerTwo = new Player(
   'playerTwo',
   'Viper',
   100,
-  'Laser',
+  'laser',
   10,
   'playerTwoActive',
   'playerTwoAllowed',
@@ -177,9 +178,8 @@ let playerTwo = new Player(
   playerTwoPosition
 );
 
-let activePlayer, passivePlayer, box, winner, loser;
 let boxes = document.getElementsByClassName('box');
-let obstacles = [];
+// let boxes = $('.box');
 
 // console.log(getCanMoveBoxes(playerOne.getCurrentPosition()));
 
@@ -188,9 +188,8 @@ function playAgain() {
 
   $('#playAgainBtn').on('click', function() {
     $('#winner').remove();
+    drawBoard();
   });
-
-  drawBoard();
 }
 
 (function($, window, document) {
