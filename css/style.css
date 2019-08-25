@@ -224,10 +224,7 @@ body {
   width: 100%;
 }
 
-.weapon {
-  background-color: lightgreen;
-}
-
+/* Winner section */
 #winner {
   display: none;
   position: absolute;

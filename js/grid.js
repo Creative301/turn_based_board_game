@@ -203,6 +203,13 @@ function checkWeapons(player, position) {
           'background-image',
           'url(' + player.oldWeapon.src + ')'
         );
+
+        if (
+          $('.col:eq(' + position + ')').hasClass('playerOneActive') ||
+          $('.col:eq(' + position + ')').hasClass('playerTwoActive')
+        ) {
+          $('.col:eq(' + position + ')').css('background', '');
+        }
       }
 
       // Update the player data to match the new weapon
