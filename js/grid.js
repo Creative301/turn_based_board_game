@@ -150,6 +150,7 @@ function movement() {
     }
   }
 
+  // check the weapon after that add the player
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
 
@@ -199,17 +200,10 @@ function checkWeapons(player, position) {
         $('.col:eq(' + position + ')')
           .addClass('weapon')
           .addClass(player.oldWeapon.cssClass);
-        $('.col:eq(' + position + ')').css(
-          'background-image',
-          'url(' + player.oldWeapon.src + ')'
-        );
-
-        if (
-          $('.col:eq(' + position + ')').hasClass('playerOneActive') ||
-          $('.col:eq(' + position + ')').hasClass('playerTwoActive')
-        ) {
-          $('.col:eq(' + position + ')').css('background', '');
-        }
+        // $('.col:eq(' + position + ')').css(
+        //   'background-image',
+        //   'url(' + player.oldWeapon.src + ')'
+        // );
       }
 
       // Update the player data to match the new weapon
@@ -415,6 +409,7 @@ function obstaclesAndWeapons(obstacles, weapons) {
   }
 
   let boxesWithoutObstacles = [...boxes];
+  // console.log(boxesWithoutObstacles);
 
   // Add weapons
   for (let i = 0; i < weapons.length; i++) {

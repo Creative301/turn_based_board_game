@@ -186,9 +186,14 @@ function playAgain() {
 
   $('#playAgainBtn').on('click', function() {
     $('#winner').remove();
+    // Remove the previous board
+    // split the function
+    $('.row').remove();
     drawBoard();
   });
 }
+
+// seperate the function
 
 (function($, window, document) {
   $(function() {
