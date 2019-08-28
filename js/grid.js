@@ -200,10 +200,6 @@ function checkWeapons(player, position) {
         $('.col:eq(' + position + ')')
           .addClass('weapon')
           .addClass(player.oldWeapon.cssClass);
-        // $('.col:eq(' + position + ')').css(
-        //   'background-image',
-        //   'url(' + player.oldWeapon.src + ')'
-        // );
       }
 
       // Update the player data to match the new weapon

@@ -14,9 +14,7 @@ playerTwoDefendButton = $('#defend_2');
 
 let playerOneSrc = 'img/playerOneWin.png';
 let playerTwoSrc = 'img/playerTwoWin.png';
-
 let activePlayer, passivePlayer;
-
 let obstacles = [];
 
 // Generate random number for the player position
@@ -43,69 +41,18 @@ playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
 
 function drawBoard() {
   // Create the grid
-  // console.log(rows, cols);
-
   const grid = new Grid('#board', rows, cols);
-
-  // Reset the player data
-  playerOne.resetPlayerData();
-  playerTwo.resetPlayerData();
-
-  playerOnePowerDOM.text(playerOne.power);
-  playerTwoPowerDOM.text(playerTwo.power);
-  playerOneWeaponDOM.text(playerOne.weapon);
-  playerTwoWeaponDOM.text(playerTwo.weapon);
-  playerOneDamageDOM.text(playerOne.weaponDamage);
-  playerTwoDamageDOM.text(playerTwo.weaponDamage);
-
-  // Set the active player
-  activePlayer = playerOne;
-  passivePlayer = playerTwo;
 
   // Add box class for each col class
   for (let i = 0; i < addBoxClass.length; i++) {
-    // addBoxClass[i].classList.add('box');
     addBoxClass[i].addClass('box');
   }
-
-  // Set the current player position
-  currentRow = playerOneY;
-  currentColumn = playerOneX;
-
-  $('div').removeClass(
-    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
-  );
-
-  $('div', '#board').addClass('vacant');
-
-  $('#board').css('display', 'block');
-  $('#player_1_Img').css('display', 'block');
-  $('#player_2_Img').css('display', 'block');
-  $('#versus').css('display', 'none');
-  $('#player_1_fight').css('display', 'none');
-  $('#player_2_fight').css('display', 'none');
-
-  // Add class to the active player and remove the box class
-  $(playerOnePosition)
-    .addClass('playerOneActive playerTurn')
-    .removeClass('box');
-
-  // Add class to the inactive player and remove the box class
-  $(playerTwoPosition)
-    .addClass('playerTwoActive')
-    .removeClass('box');
-
-  allowedtoMove();
-  adjacent();
-  obstaclesAndWeapons(10, weapons);
-  disableMove();
 }
 
 // Player class
 class Player {
   constructor(
     src,
-    cssClass,
     name,
     power,
     weapon,
@@ -117,7 +64,6 @@ class Player {
     positionID
   ) {
     this.src = src;
-    this.cssClass = cssClass;
     this.name = name;
     this.power = power;
     this.weapon = weapon;
@@ -152,7 +98,6 @@ class Player {
 // Instantiate player one object
 let playerOne = new Player(
   playerOneSrc,
-  'playerOne',
   'Maverick',
   100,
   'laser',
@@ -167,7 +112,6 @@ let playerOne = new Player(
 // Instantiate player two object
 let playerTwo = new Player(
   playerTwoSrc,
-  'playerTwo',
   'Viper',
   100,
   'laser',
@@ -186,17 +130,69 @@ function playAgain() {
 
   $('#playAgainBtn').on('click', function() {
     $('#winner').remove();
-    // Remove the previous board
-    // split the function
     $('.row').remove();
     drawBoard();
+    init();
   });
 }
 
 // seperate the function
+function init() {
+  // Reset the player data
+  playerOne.resetPlayerData();
+  playerTwo.resetPlayerData();
+
+  $('div').removeClass(
+    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
+  );
+
+  playerOnePowerDOM.text(playerOne.power);
+  playerTwoPowerDOM.text(playerTwo.power);
+  playerOneWeaponDOM.text(playerOne.weapon);
+  playerTwoWeaponDOM.text(playerTwo.weapon);
+  playerOneDamageDOM.text(playerOne.weaponDamage);
+  playerTwoDamageDOM.text(playerTwo.weaponDamage);
+
+  // Set the active player
+  activePlayer = playerOne;
+  passivePlayer = playerTwo;
+
+  // Set the current player position
+  currentRow = playerOneY;
+  currentColumn = playerOneX;
+
+  // $('div').removeClass(
+  //   'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
+  // );
+
+  $('div', '#board').addClass('vacant');
+
+  $('#board').css('display', 'block');
+  $('#player_1_Img').css('display', 'block');
+  $('#player_2_Img').css('display', 'block');
+  $('#versus').css('display', 'none');
+  $('#player_1_fight').css('display', 'none');
+  $('#player_2_fight').css('display', 'none');
+
+  // Add class to the active player and remove the box class
+  $(playerOnePosition)
+    .addClass('playerOneActive playerTurn')
+    .removeClass('box');
+
+  // Add class to the inactive player and remove the box class
+  $(playerTwoPosition)
+    .addClass('playerTwoActive')
+    .removeClass('box');
+
+  allowedtoMove();
+  adjacent();
+  obstaclesAndWeapons(10, weapons);
+  disableMove();
+}
 
 (function($, window, document) {
   $(function() {
     drawBoard();
+    init();
   });
 })(window.jQuery, window, document);
