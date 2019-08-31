@@ -129,14 +129,20 @@ let boxes = document.getElementsByClassName('box');
 
 function playAgain() {
   console.log('play again');
-
+  $board.off('click');
+  playerOneAttackButton.off('click');
+  playerOneDefendButton.off('click');
   $('#playAgainBtn').on('click', function() {
+    // $board.off('click');
     $('#winner').remove();
     $('.row').remove();
     randomPositionNumbers = [];
     drawBoard();
     createPlayers();
     init();
+    allowedtoMove();
+    adjacent();
+    disableMove();
   });
 }
 
@@ -184,10 +190,7 @@ function init() {
     .addClass('playerTwoActive')
     .removeClass('box');
 
-  allowedtoMove();
-  adjacent();
   obstaclesAndWeapons(10, weapons);
-  disableMove();
 }
 
 (function($, window, document) {
@@ -195,5 +198,8 @@ function init() {
     drawBoard();
     createPlayers();
     init();
+    allowedtoMove();
+    adjacent();
+    disableMove();
   });
 })(window.jQuery, window, document);

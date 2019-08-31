@@ -1,5 +1,6 @@
 const rows = 10;
 const cols = 10;
+let $board;
 let weapons = [];
 let cantMove = [];
 let playerOneX,
@@ -31,9 +32,8 @@ class Grid {
     this.setupEventListeners();
   }
 
-  // Create the grid
   createGrid() {
-    const $board = $(this.selector);
+    $board = $(this.selector);
     for (let row = 0; row < this.rows; row++) {
       const $row = $('<div>').addClass('row');
       for (let col = 0; col < this.cols; col++) {
@@ -98,10 +98,12 @@ let barrel = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'barrel');
 
 // Player movement
 function movement() {
+  let oldPosition, newPosition;
+
   oldPosition = activePlayer.getCurrentPosition();
   newPosition = $(this).index('.col');
   console.log('Active: ' + activePlayer.name);
-  console.log('Passive: ' + passivePlayer.name);
+  // console.log('Passive: ' + passivePlayer.name);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
