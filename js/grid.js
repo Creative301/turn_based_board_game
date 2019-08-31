@@ -71,6 +71,16 @@ class Grid {
   }
 }
 
+function drawBoard() {
+  // Create the grid
+  const grid = new Grid('#board', rows, cols);
+
+  // Add box class for each col class
+  for (let i = 0; i < addBoxClass.length; i++) {
+    addBoxClass[i].addClass('box');
+  }
+}
+
 class Weapon {
   constructor(name, src, damage, cssClass) {
     this.name = name;
@@ -88,12 +98,10 @@ let barrel = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'barrel');
 
 // Player movement
 function movement() {
-  selectCol = $(this).data('col');
-  selectRow = $(this).data('row');
-  selectedColRow = `#${selectCol}_${selectRow}`;
-
   oldPosition = activePlayer.getCurrentPosition();
   newPosition = $(this).index('.col');
+  console.log('Active: ' + activePlayer.name);
+  console.log('Passive: ' + passivePlayer.name);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
@@ -150,7 +158,6 @@ function movement() {
     }
   }
 
-  // check the weapon after that add the player
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
 
