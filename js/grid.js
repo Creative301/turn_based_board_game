@@ -105,7 +105,6 @@ function movement() {
   oldPosition = activePlayer.getCurrentPosition();
   newPosition = $(this).index('.col');
   console.log('Active: ' + activePlayer.name);
-  // console.log('Passive: ' + passivePlayer.name);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
@@ -164,6 +163,7 @@ function movement() {
 
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
+
   // Fight if the players position are adjacent
   if ($(this).hasClass('adjacent')) {
     switchPlayerForFight();

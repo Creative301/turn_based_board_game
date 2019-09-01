@@ -87,7 +87,9 @@ body {
 
 /* Obstacles */
 .obstacles {
-  border: 2px solid red;
+  /* border: 2px solid red; */
+  background: url(../img/rocks.png) no-repeat center;
+  background-size: contain;
 }
 
 /* Weapons */
@@ -132,7 +134,7 @@ body {
 }
 
 .playerTurn {
-  background-color: orange;
+  /* background-color: orange; */
 }
 
 .canMove {
@@ -316,8 +318,4 @@ body {
 #playAgainBtn:active:after {
   width: 200px;
   height: 200px;
-}
-
-.weapon {
-  background-color: lightgreen;
 }
