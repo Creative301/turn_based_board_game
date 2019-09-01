@@ -84,7 +84,7 @@ let numberGenerator = function(arr) {
 
 function createPlayers() {
   numberGenerator(randomPositionNumbers);
-  console.log(randomPositionNumbers);
+  // console.log(randomPositionNumbers);
 
   // Players position
   playerOneX = randomPositionNumbers[0];
@@ -128,8 +128,11 @@ let boxes = document.getElementsByClassName('box');
 
 function playAgain() {
   console.log('play again');
+  playerOneAttackButton.off('click');
+  playerOneDefendButton.off('click');
+  playerTwoAttackButton.off('click');
+  playerTwoDefendButton.off('click');
   $('#playAgainBtn').on('click', function() {
-    console.log(playerOne.weaponDamage);
     $board.off('click');
     $('#winner').css('display', 'none');
     $('#winnerContainer').remove();

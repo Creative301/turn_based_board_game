@@ -589,6 +589,6 @@ function checkWin() {
       );
       playAgain();
     }
-    setTimeout(showWinner, 1000);
+    setTimeout(showWinner, 700);
   }
 }

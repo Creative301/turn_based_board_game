@@ -12,32 +12,14 @@ playerOneDefendButton = $('#defend_1');
 playerTwoAttackButton = $('#attack_2');
 playerTwoDefendButton = $('#defend_2');
 
+let playerOne, playerTwo;
 let playerOneSrc = 'img/playerOneWin.png';
 let playerTwoSrc = 'img/playerTwoWin.png';
 let activePlayer, passivePlayer;
 let obstacles = [];
 
-// Generate random number for the player position
+// Random number for the player position
 let randomPositionNumbers = [];
-
-let numberGenerator = function(arr) {
-  if (arr.length > 3) return;
-  let newNumber = Math.floor(Math.random() * rows);
-  if (arr.indexOf(newNumber) < 0) {
-    arr.push(newNumber);
-  }
-  numberGenerator(arr);
-};
-numberGenerator(randomPositionNumbers);
-
-// Players position
-playerOneX = randomPositionNumbers[0];
-playerOneY = randomPositionNumbers[1];
-playerTwoX = randomPositionNumbers[2];
-playerTwoY = randomPositionNumbers[3];
-
-playerOnePosition = `#${playerOneX}_${playerOneY}`;
-playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
 
 // Player class
 class Player {
@@ -67,6 +49,7 @@ class Player {
       y: y
     };
     this.positionID = positionID;
+    this.isDefending = false;
   }
 
   getCurrentPosition() {
@@ -85,56 +68,92 @@ class Player {
   }
 }
 
-// Instantiate player one object
-let playerOne = new Player(
-  playerOneSrc,
-  'Maverick',
-  100,
-  'laser',
-  10,
-  'playerOneActive',
-  'playerOneAllowed',
-  playerOneX,
-  playerOneY,
-  playerOnePosition
-);
+function newNumber() {
+  return Math.floor(Math.random() * rows);
+}
 
-// Instantiate player two object
-let playerTwo = new Player(
-  playerTwoSrc,
-  'Viper',
-  100,
-  'laser',
-  10,
-  'playerTwoActive',
-  'playerTwoAllowed',
-  playerTwoX,
-  playerTwoY,
-  playerTwoPosition
-);
+let numberGenerator = function(arr) {
+  if (arr.length > 3) return;
+  // let newNumber = Math.floor(Math.random() * rows);
+
+  if (arr.indexOf(newNumber()) < 0) {
+    arr.push(newNumber());
+  }
+  numberGenerator(arr);
+};
+
+function createPlayers() {
+  numberGenerator(randomPositionNumbers);
+  // console.log(randomPositionNumbers);
+
+  // Players position
+  playerOneX = randomPositionNumbers[0];
+  playerOneY = randomPositionNumbers[1];
+  playerTwoX = randomPositionNumbers[2];
+  playerTwoY = randomPositionNumbers[3];
+
+  playerOnePosition = `#${playerOneX}_${playerOneY}`;
+  playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
+
+  // Instantiate player one object
+  playerOne = new Player(
+    playerOneSrc,
+    'Maverick',
+    100,
+    'laser',
+    10,
+    'playerOneActive',
+    'playerOneAllowed',
+    playerOneX,
+    playerOneY,
+    playerOnePosition
+  );
+
+  // Instantiate player two object
+  playerTwo = new Player(
+    playerTwoSrc,
+    'Viper',
+    100,
+    'laser',
+    10,
+    'playerTwoActive',
+    'playerTwoAllowed',
+    playerTwoX,
+    playerTwoY,
+    playerTwoPosition
+  );
+}
 
 let boxes = document.getElementsByClassName('box');
 
 function playAgain() {
   console.log('play again');
-
+  playerOneAttackButton.off('click');
+  playerOneDefendButton.off('click');
+  playerTwoAttackButton.off('click');
+  playerTwoDefendButton.off('click');
   $('#playAgainBtn').on('click', function() {
-    $('#winner').remove();
+    $board.off('click');
+    $('#winner').css('display', 'none');
+    $('#winnerContainer').remove();
     $('.row').remove();
+    randomPositionNumbers = [];
     drawBoard();
     createPlayers();
     init();
+    allowedtoMove();
+    adjacent();
+    disableMove();
   });
 }
 
-// seperate the function
 function init() {
   // Reset the player data
   playerOne.resetPlayerData();
   playerTwo.resetPlayerData();
 
   $('div').removeClass(
-    'playerOneAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
+    'playerOneAllowed playerTwoAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
   );
 
   playerOnePowerDOM.text(playerOne.power);
@@ -161,25 +180,26 @@ function init() {
   $('#player_1_fight').css('display', 'none');
   $('#player_2_fight').css('display', 'none');
 
-  // Add player one
+  // Show player one image to the board
   $(playerOnePosition)
     .addClass('playerOneActive playerTurn')
     .removeClass('box');
 
-  // Add player two
+  // Show player two image to the board
   $(playerTwoPosition)
     .addClass('playerTwoActive')
     .removeClass('box');
 
-  allowedtoMove();
-  adjacent();
   obstaclesAndWeapons(10, weapons);
-  disableMove();
 }
 
 (function($, window, document) {
   $(function() {
     drawBoard();
+    createPlayers();
     init();
+    allowedtoMove();
+    adjacent();
+    disableMove();
   });
 })(window.jQuery, window, document);
