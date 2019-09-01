@@ -18,7 +18,7 @@ let playerTwoSrc = 'img/playerTwoWin.png';
 let activePlayer, passivePlayer;
 let obstacles = [];
 
-// Generate random number for the player position
+// Random number for the player position
 let randomPositionNumbers = [];
 
 // Player class
@@ -49,6 +49,7 @@ class Player {
       y: y
     };
     this.positionID = positionID;
+    this.isDefending = false;
   }
 
   getCurrentPosition() {
@@ -93,8 +94,6 @@ function createPlayers() {
 
   playerOnePosition = `#${playerOneX}_${playerOneY}`;
   playerTwoPosition = `#${playerTwoX}_${playerTwoY}`;
-  // console.log(playerOnePosition);
-  // console.log(playerTwoPosition);
 
   // Instantiate player one object
   playerOne = new Player(
@@ -129,12 +128,11 @@ let boxes = document.getElementsByClassName('box');
 
 function playAgain() {
   console.log('play again');
-  $board.off('click');
-  playerOneAttackButton.off('click');
-  playerOneDefendButton.off('click');
   $('#playAgainBtn').on('click', function() {
-    // $board.off('click');
-    $('#winner').remove();
+    console.log(playerOne.weaponDamage);
+    $board.off('click');
+    $('#winner').css('display', 'none');
+    $('#winnerContainer').remove();
     $('.row').remove();
     randomPositionNumbers = [];
     drawBoard();
@@ -146,7 +144,6 @@ function playAgain() {
   });
 }
 
-// seperate the function
 function init() {
   // Reset the player data
   playerOne.resetPlayerData();
@@ -180,12 +177,12 @@ function init() {
   $('#player_1_fight').css('display', 'none');
   $('#player_2_fight').css('display', 'none');
 
-  // Add player one
+  // Show player one image to the board
   $(playerOnePosition)
     .addClass('playerOneActive playerTurn')
     .removeClass('box');
 
-  // Add player two
+  // Show player two image to the board
   $(playerTwoPosition)
     .addClass('playerTwoActive')
     .removeClass('box');

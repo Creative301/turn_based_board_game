@@ -57,6 +57,7 @@ class Grid {
       if ($(this).hasClass('canMove')) {
         $(this).addClass(activePlayer.hoverBox);
       }
+      $(this).off('mouseenter');
     });
 
     $board.on('mouseleave', '.col.vacant', function() {
@@ -64,6 +65,7 @@ class Grid {
       if ($(this).hasClass('canMove')) {
         $(this).removeClass(activePlayer.hoverBox);
       }
+      $(this).off('mouseleave');
     });
 
     // Limit the player movement
@@ -162,7 +164,6 @@ function movement() {
 
   $(`${playerOnePosition}`).removeClass('canMove');
   $(`${playerTwoPosition}`).removeClass('canMove');
-
   // Fight if the players position are adjacent
   if ($(this).hasClass('adjacent')) {
     switchPlayerForFight();
@@ -414,7 +415,6 @@ function obstaclesAndWeapons(obstacles, weapons) {
   }
 
   let boxesWithoutObstacles = [...boxes];
-  // console.log(boxesWithoutObstacles);
 
   // Add weapons
   for (let i = 0; i < weapons.length; i++) {
@@ -429,22 +429,11 @@ function obstaclesAndWeapons(obstacles, weapons) {
     boxesWithoutObstacles.splice(generateRandomNumber, 1);
   }
 
-  // Show weapons on the board
-  document.querySelector('.pipe').style.backgroundImage = `url(
-    ${weapons[0].src}
-  )`;
-
-  document.querySelector('.antenna').style.backgroundImage = `url(
-    ${weapons[1].src}
-  )`;
-
-  document.querySelector('.metal').style.backgroundImage = `url(
-    ${weapons[2].src}
-  )`;
-
-  document.querySelector('.barrel').style.backgroundImage = `url(
-    ${weapons[3].src}
-  )`;
+  // Show the weapons image on the board
+  $('.pipe').css('background-image', `url(${weapons[0].src})`);
+  $('.antenna').css('background-image', `url(${weapons[1].src})`);
+  $('.metal').css('background-image', `url(${weapons[2].src})`);
+  $('.barrel').css('background-image', `url(${weapons[3].src})`);
 }
 
 function fight() {
@@ -461,6 +450,7 @@ function fight() {
   playerTwoDefend();
 }
 
+// Reduce opponent power when fighting
 function reducePower(activePlayer, passivePlayer) {
   if (activePlayer.currentWeapon === '') {
     if (passivePlayer.isDefending === true) {
@@ -482,6 +472,7 @@ function reducePower(activePlayer, passivePlayer) {
 function playerOneAttack() {
   if (activePlayer === playerOne) {
     playerOneFightButtons.css('display', 'block');
+    playerTwoFightButtons.css('display', 'none');
     playerOne.isDefending = false;
 
     // Create own function
@@ -495,6 +486,8 @@ function playerOneAttack() {
       // Remove the event listener function
       playerOneAttackButton.off('click');
       playerOneDefendButton.off('click');
+      playerTwoAttackButton.off('click');
+      playerTwoDefendButton.off('click');
       fight();
     }
 
@@ -510,6 +503,8 @@ function playerOneDefend() {
       switchToPlayerTwo();
       playerOneAttackButton.off('click');
       playerOneDefendButton.off('click');
+      playerTwoAttackButton.off('click');
+      playerTwoDefendButton.off('click');
       fight();
     }
   }
@@ -527,6 +522,7 @@ function switchToPlayerTwo() {
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
     playerTwoFightButtons.css('display', 'block');
+    playerOneFightButtons.css('display', 'none');
     playerTwo.isDefending = false;
 
     function attackPlayerOne() {
@@ -537,6 +533,8 @@ function playerTwoAttack() {
 
       playerTwoAttackButton.off('click');
       playerTwoDefendButton.off('click');
+      playerOneAttackButton.off('click');
+      playerOneDefendButton.off('click');
       fight();
     }
     playerTwoAttackButton.on('click', attackPlayerOne);
@@ -552,6 +550,8 @@ function playerTwoDefend() {
       switchToPlayerOne();
       playerTwoAttackButton.off('click');
       playerTwoDefendButton.off('click');
+      playerOneAttackButton.off('click');
+      playerOneDefendButton.off('click');
       fight();
     }
   }
@@ -571,8 +571,9 @@ function checkWin() {
     function showWinner() {
       // The winner has switched to a passivePlayer
       $('#winner').css('display', 'block');
+      $('#winner').append(`<div id=winnerContainer></div>`);
 
-      $('#winner').append(
+      $('#winnerContainer').append(
         `<h1 id=message>And the winner is:</h1>
         <h2>${passivePlayer.name}</h2>`
       );
@@ -581,9 +582,9 @@ function checkWin() {
         '<section id=winnerImg><img src =' +
           passivePlayer.src +
           ' width=150px></section>'
-      ).appendTo('#winner');
+      ).appendTo('#winnerContainer');
 
-      $('#winner').append(
+      $('#winnerContainer').append(
         '<section id=playAgain><button class=btn id=playAgainBtn>Play Again</button></section>'
       );
       playAgain();
