@@ -168,7 +168,10 @@ body {
 
 #fight_buttons_1,
 #fight_buttons_2 {
-  display: none;
+  /* display: none; */
+}
+#fight_buttons_1 {
+  margin-top: 1.9rem;
 }
 
 .button {
@@ -182,7 +185,7 @@ body {
   text-transform: uppercase;
   font-size: 1rem;
   letter-spacing: 0.15rem;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -208,7 +211,7 @@ body {
   width: 0%;
   height: 100%;
   background-color: #a85528;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
   border-radius: 10rem;
   z-index: -1;
 }
@@ -233,7 +236,7 @@ body {
   width: 0%;
   height: 100%;
   background-color: #a85528;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
   border-radius: 10rem;
   z-index: -1;
 }
@@ -291,7 +294,7 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   position: relative;
-  transition: background-color 0.6s ease;
+  /* transition: background-color 0.6s ease; */
   overflow: hidden;
 }
 
@@ -308,7 +311,7 @@ body {
   transform: translate3d(-50%, -50%, 0);
   background: rgba(255, 255, 255, 0.1);
   border-radius: 100%;
-  transition: width 0.3s ease, height 0.3s ease;
+  /* transition: width 0.3s ease, height 0.3s ease; */
 }
 
 #playAgainBtn:focus,
@@ -319,3 +322,12 @@ body {
   width: 200px;
   height: 200px;
 }
+
+/* #player_1_fight figure img,
+#player_2_fight figure img {
+  background-color: lightgreen;
+}
+#player_1_fight figure,
+#player_2_fight figure {
+  background-color: orange;
+} */

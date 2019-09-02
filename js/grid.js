@@ -457,7 +457,7 @@ function reducePower(activePlayer, passivePlayer) {
       passivePlayer.power -= 5;
       passivePlayer.isDefending = false;
     } else {
-      passivePlayer.power -= 50;
+      passivePlayer.power -= 10;
     }
   } else {
     if (passivePlayer.isDefending === true) {
@@ -471,8 +471,8 @@ function reducePower(activePlayer, passivePlayer) {
 
 function playerOneAttack() {
   if (activePlayer === playerOne) {
-    playerOneFightButtons.css('display', 'block');
-    playerTwoFightButtons.css('display', 'none');
+    playerOneFightButtons.css('visibility', 'visible');
+    playerTwoFightButtons.css('visibility', 'hidden');
     playerOne.isDefending = false;
 
     // Create own function
@@ -481,6 +481,12 @@ function playerOneAttack() {
       // playerOne.reduceOpponentPower(playerTwo);
       reducePower(playerOne, playerTwo);
       playerTwoPowerDOM.text(playerTwo.power);
+
+      // Animate the player image when the attack button click
+      $('#playerOneImg').animate({ marginLeft: '-20rem' }, 100, function() {
+        $('#playerOneImg').css('margin-left', '0');
+      });
+
       switchToPlayerTwo();
 
       // Remove the event listener function
@@ -515,20 +521,26 @@ function switchToPlayerTwo() {
   checkWin();
   activePlayer = playerTwo;
   passivePlayer = playerOne;
-  playerOneFightButtons.css('display', 'none');
-  playerTwoFightButtons.css('display', 'block');
+  playerOneFightButtons.css('visibility', 'hidden');
+  playerTwoFightButtons.css('visibility', 'visible');
 }
 
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
-    playerTwoFightButtons.css('display', 'block');
-    playerOneFightButtons.css('display', 'none');
+    playerTwoFightButtons.css('visibility', 'visible');
+    playerOneFightButtons.css('visibility', 'hidden');
     playerTwo.isDefending = false;
 
     function attackPlayerOne() {
       // playerTwo.reduceOpponentPower(playerOne);
       reducePower(playerTwo, playerOne);
       playerOnePowerDOM.text(playerOne.power);
+
+      // Animate the player image when the attack button click
+      $('#playerTwoImg').animate({ marginRight: '-20rem' }, 100, function() {
+        $('#playerTwoImg').css('margin-right', '0');
+      });
+
       switchToPlayerOne();
 
       playerTwoAttackButton.off('click');
@@ -562,8 +574,8 @@ function switchToPlayerOne() {
   checkWin();
   activePlayer = playerOne;
   passivePlayer = playerTwo;
-  playerTwoFightButtons.css('display', 'none');
-  playerOneFightButtons.css('display', 'block');
+  playerTwoFightButtons.css('visibility', 'hidden');
+  playerOneFightButtons.css('visibility', 'visible');
 }
 
 function checkWin() {
