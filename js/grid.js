@@ -457,7 +457,7 @@ function reducePower(activePlayer, passivePlayer) {
       passivePlayer.power -= 5;
       passivePlayer.isDefending = false;
     } else {
-      passivePlayer.power -= 10;
+      passivePlayer.power -= 50;
     }
   } else {
     if (passivePlayer.isDefending === true) {

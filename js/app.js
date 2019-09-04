@@ -152,6 +152,8 @@ function init() {
   playerOne.resetPlayerData();
   playerTwo.resetPlayerData();
 
+  cantMove = [];
+
   $('div').removeClass(
     'playerOneAllowed playerTwoAllowed canMove adjacent playerOneActive playerTwoActive playerTurn pipe antenna metal barrel'
   );
