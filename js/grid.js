@@ -35,13 +35,13 @@ class Grid {
   createGrid() {
     $board = $(this.selector);
     for (let row = 0; row < this.rows; row++) {
-      const $row = $('<div>').addClass('row');
+      const $row = $("<div>").addClass("row");
       for (let col = 0; col < this.cols; col++) {
-        const $col = $('<div>')
-          .addClass('col box vacant vacantBox')
-          .attr('data-col', col)
-          .attr('data-row', row)
-          .attr('id', col + '_' + row);
+        const $col = $("<div>")
+          .addClass("col box vacant vacantBox")
+          .attr("data-col", col)
+          .attr("data-row", row)
+          .attr("id", col + "_" + row);
         $row.append($col);
       }
       $board.append($row);
@@ -52,34 +52,34 @@ class Grid {
   setupEventListeners() {
     const $board = $(this.selector);
 
-    $board.on('mouseenter', '.col.vacant', function() {
-      $(this).addClass('onHover');
-      if ($(this).hasClass('canMove')) {
+    $board.on("mouseenter", ".col.vacant", function() {
+      $(this).addClass("onHover");
+      if ($(this).hasClass("canMove")) {
         $(this).addClass(activePlayer.hoverBox);
       }
-      $(this).off('mouseenter');
+      $(this).off("mouseenter");
     });
 
-    $board.on('mouseleave', '.col.vacant', function() {
-      $(this).removeClass('onHover');
-      if ($(this).hasClass('canMove')) {
+    $board.on("mouseleave", ".col.vacant", function() {
+      $(this).removeClass("onHover");
+      if ($(this).hasClass("canMove")) {
         $(this).removeClass(activePlayer.hoverBox);
       }
-      $(this).off('mouseleave');
+      $(this).off("mouseleave");
     });
 
     // Limit the player movement
-    $board.on('click', '.canMove', movement);
+    $board.on("click", ".canMove", movement);
   }
 }
 
 function drawBoard() {
   // Create the grid
-  const grid = new Grid('#board', rows, cols);
+  const grid = new Grid("#board", rows, cols);
 
   // Add box class for each col class
   for (let i = 0; i < addBoxClass.length; i++) {
-    addBoxClass[i].addClass('box');
+    addBoxClass[i].addClass("box");
   }
 }
 
@@ -93,18 +93,18 @@ class Weapon {
   }
 }
 
-let pipe = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'pipe');
-let antenna = new Weapon('Antenna', 'img/w2_antenna.png', 20, 'antenna');
-let metal = new Weapon('Metal', 'img/w3_metal.png', 25, 'metal');
-let barrel = new Weapon('Barrel', 'img/w4_barrel.png', 30, 'barrel');
+let pipe = new Weapon("Pipe", "img/w1_pipe.png", 15, "pipe");
+let antenna = new Weapon("Antenna", "img/w2_antenna.png", 20, "antenna");
+let metal = new Weapon("Metal", "img/w3_metal.png", 25, "metal");
+let barrel = new Weapon("Barrel", "img/w4_barrel.png", 30, "barrel");
 
 // Player movement
 function movement() {
   let oldPosition, newPosition;
 
   oldPosition = activePlayer.getCurrentPosition();
-  newPosition = $(this).index('.col');
-  console.log('Active: ' + activePlayer.name);
+  newPosition = $(this).index(".col");
+  console.log("Active: " + activePlayer.name);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
@@ -116,13 +116,13 @@ function movement() {
   $(this).addClass(activePlayer.activeBox);
 
   // Remove canMove class when the player switch
-  $('div').removeClass('onHover canMove adjacent');
+  $("div").removeClass("onHover canMove adjacent");
 
   // Switch active class
-  $(activePlayer.positionID).removeClass('playerTurn');
-  $(passivePlayer.positionID).addClass('playerTurn');
-  activePlayer.position.x = $(this).data('col');
-  activePlayer.position.y = $(this).data('row');
+  $(activePlayer.positionID).removeClass("playerTurn");
+  $(passivePlayer.positionID).addClass("playerTurn");
+  activePlayer.position.x = $(this).data("col");
+  activePlayer.position.y = $(this).data("row");
 
   activePlayer.positionID = `#${activePlayer.position.x}_${activePlayer.position.y}`;
 
@@ -161,11 +161,11 @@ function movement() {
     }
   }
 
-  $(`${playerOnePosition}`).removeClass('canMove');
-  $(`${playerTwoPosition}`).removeClass('canMove');
+  $(`${playerOnePosition}`).removeClass("canMove");
+  $(`${playerTwoPosition}`).removeClass("canMove");
 
   // Fight if the players position are adjacent
-  if ($(this).hasClass('adjacent')) {
+  if ($(this).hasClass("adjacent")) {
     switchPlayerForFight();
     fight();
   }
@@ -196,19 +196,19 @@ function switchPlayerForFight() {
 // Add a weapon when the player moved over to a new box with a weapon class
 function checkWeapons(player, position) {
   $.each(weapons, function(index, weapon) {
-    if ($('.col:eq(' + position + ')').hasClass(weapon.cssClass)) {
-      $('.col:eq(' + position + ')')
+    if ($(".col:eq(" + position + ")").hasClass(weapon.cssClass)) {
+      $(".col:eq(" + position + ")")
         .removeClass(weapon.cssClass)
-        .removeClass('weapon')
-        .css('background', '');
+        .removeClass("weapon")
+        .css("background", "");
 
       // If there is a current weapon, it becomes old weapon
       player.oldWeapon = player.currentWeapon;
 
       // Get the second or the next weapon, leaving old weapon on the box
-      if (player.oldWeapon !== '') {
-        $('.col:eq(' + position + ')')
-          .addClass('weapon')
+      if (player.oldWeapon !== "") {
+        $(".col:eq(" + position + ")")
+          .addClass("weapon")
           .addClass(player.oldWeapon.cssClass);
       }
 
@@ -253,8 +253,8 @@ function allowedtoMove() {
 
   // Check if the player move over a box that contain a weapon
   allowedBoxes.forEach(function(box) {
-    if (!box.hasClass('obstacles')) {
-      box.addClass('canMove');
+    if (!box.hasClass("obstacles")) {
+      box.addClass("canMove");
     }
   });
 }
@@ -269,134 +269,134 @@ function adjacent() {
   ];
 
   adjacentBoxes.forEach(function(box) {
-    box.addClass('adjacent');
+    box.addClass("adjacent");
   });
 }
 
 // Disable player movement after obstacle
 function disableMove() {
-  if (cantMove.includes(currentColumn + '_' + (currentRow - 1))) {
-    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + "_" + (currentRow - 1))) {
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn}_${currentRow - 3}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn + '_' + (currentRow - 2))) {
-    $(`#${currentColumn}_${currentRow - 3}`).removeClass('canMove');
-  }
-
-  if (
-    cantMove.includes(currentColumn + '_' + (currentRow - 1)) &&
-    cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1))
-  ) {
-    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn + 1}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
-  }
-
-  if (cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1))) {
-    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + "_" + (currentRow - 2))) {
+    $(`#${currentColumn}_${currentRow - 3}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn + 1 + '_' + (currentRow - 1)) &&
-    cantMove.includes(currentColumn + 1 + '_' + currentRow)
+    cantMove.includes(currentColumn + "_" + (currentRow - 1)) &&
+    cantMove.includes(currentColumn + 1 + "_" + (currentRow - 1))
   ) {
-    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow - 1}`).removeClass('canMove');
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn + 1}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn + 1 + '_' + currentRow)) {
-    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn + 3}_${currentRow}`).removeClass('canMove');
-  }
-
-  if (cantMove.includes(currentColumn + 2 + '_' + currentRow)) {
-    $(`#${currentColumn + 3}_${currentRow}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + 1 + "_" + (currentRow - 1))) {
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn + 1 + '_' + currentRow) &&
-    cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))
+    cantMove.includes(currentColumn + 1 + "_" + (currentRow - 1)) &&
+    cantMove.includes(currentColumn + 1 + "_" + currentRow)
   ) {
-    $(`#${currentColumn + 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow + 1}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow - 1}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))) {
-    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + 1 + "_" + currentRow)) {
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn + 3}_${currentRow}`).removeClass("canMove");
+  }
+
+  if (cantMove.includes(currentColumn + 2 + "_" + currentRow)) {
+    $(`#${currentColumn + 3}_${currentRow}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn + '_' + (currentRow + 1)) &&
-    cantMove.includes(currentColumn + 1 + '_' + (currentRow + 1))
+    cantMove.includes(currentColumn + 1 + "_" + currentRow) &&
+    cantMove.includes(currentColumn + 1 + "_" + (currentRow + 1))
   ) {
-    $(`#${currentColumn + 1}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn + 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow + 1}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn + '_' + (currentRow + 1))) {
-    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn}_${currentRow + 3}`).removeClass('canMove');
-  }
-
-  if (cantMove.includes(currentColumn + '_' + (currentRow + 2))) {
-    $(`#${currentColumn}_${currentRow + 3}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + 1 + "_" + (currentRow + 1))) {
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn + '_' + (currentRow + 1)) &&
-    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+    cantMove.includes(currentColumn + "_" + (currentRow + 1)) &&
+    cantMove.includes(currentColumn + 1 + "_" + (currentRow + 1))
   ) {
-    $(`#${currentColumn - 1}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn}_${currentRow + 2}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn + 1}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn + 2}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))) {
-    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn + "_" + (currentRow + 1))) {
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn}_${currentRow + 3}`).removeClass("canMove");
+  }
+
+  if (cantMove.includes(currentColumn + "_" + (currentRow + 2))) {
+    $(`#${currentColumn}_${currentRow + 3}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn - 1 + '_' + currentRow) &&
-    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+    cantMove.includes(currentColumn + "_" + (currentRow + 1)) &&
+    cantMove.includes(currentColumn - 1 + "_" + (currentRow + 1))
   ) {
-    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow + 1}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass('canMove');
+    $(`#${currentColumn - 1}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn}_${currentRow + 2}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn - 1 + '_' + currentRow)) {
-    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn - 3}_${currentRow}`).removeClass('canMove');
-  }
-
-  if (cantMove.includes(currentColumn - 2 + '_' + currentRow)) {
-    $(`#${currentColumn - 3}_${currentRow}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn - 1 + "_" + (currentRow + 1))) {
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn - 1 + '_' + currentRow) &&
-    cantMove.includes(currentColumn - 1 + '_' + (currentRow + 1))
+    cantMove.includes(currentColumn - 1 + "_" + currentRow) &&
+    cantMove.includes(currentColumn - 1 + "_" + (currentRow + 1))
   ) {
-    $(`#${currentColumn - 2}_${currentRow}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow - 1}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow + 1}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow + 2}`).removeClass("canMove");
   }
 
-  if (cantMove.includes(currentColumn - 1 + '_' + (currentRow - 1))) {
-    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
+  if (cantMove.includes(currentColumn - 1 + "_" + currentRow)) {
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn - 3}_${currentRow}`).removeClass("canMove");
+  }
+
+  if (cantMove.includes(currentColumn - 2 + "_" + currentRow)) {
+    $(`#${currentColumn - 3}_${currentRow}`).removeClass("canMove");
   }
 
   if (
-    cantMove.includes(currentColumn + '_' + (currentRow - 1)) &&
-    cantMove.includes(currentColumn - 1 + '_' + (currentRow - 1))
+    cantMove.includes(currentColumn - 1 + "_" + currentRow) &&
+    cantMove.includes(currentColumn - 1 + "_" + (currentRow + 1))
   ) {
-    $(`#${currentColumn}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn - 1}_${currentRow - 2}`).removeClass('canMove');
-    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass('canMove');
+    $(`#${currentColumn - 2}_${currentRow}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow - 1}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass("canMove");
+  }
+
+  if (cantMove.includes(currentColumn - 1 + "_" + (currentRow - 1))) {
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass("canMove");
+  }
+
+  if (
+    cantMove.includes(currentColumn + "_" + (currentRow - 1)) &&
+    cantMove.includes(currentColumn - 1 + "_" + (currentRow - 1))
+  ) {
+    $(`#${currentColumn}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn - 1}_${currentRow - 2}`).removeClass("canMove");
+    $(`#${currentColumn - 2}_${currentRow - 2}`).removeClass("canMove");
   }
 }
 
@@ -408,8 +408,8 @@ function obstaclesAndWeapons(obstacles, weapons) {
 
     let addObstacles = boxes[generateRandomNumber];
 
-    addObstacles.classList.add('obstacles');
-    addObstacles.classList.remove('box', 'vacant', 'canMove');
+    addObstacles.classList.add("obstacles");
+    addObstacles.classList.remove("box", "vacant", "canMove");
 
     cantMove.push(addObstacles.id);
   }
@@ -423,26 +423,26 @@ function obstaclesAndWeapons(obstacles, weapons) {
     );
 
     let addWeapons = boxesWithoutObstacles[generateRandomNumber];
-    addWeapons.classList.add('weapon');
+    addWeapons.classList.add("weapon");
     addWeapons.classList.add(weapons[i].cssClass);
 
     boxesWithoutObstacles.splice(generateRandomNumber, 1);
   }
 
   // Show the weapons image on the board
-  $('.pipe').css('background-image', `url(${weapons[0].src})`);
-  $('.antenna').css('background-image', `url(${weapons[1].src})`);
-  $('.metal').css('background-image', `url(${weapons[2].src})`);
-  $('.barrel').css('background-image', `url(${weapons[3].src})`);
+  $(".pipe").css("background-image", `url(${weapons[0].src})`);
+  $(".antenna").css("background-image", `url(${weapons[1].src})`);
+  $(".metal").css("background-image", `url(${weapons[2].src})`);
+  $(".barrel").css("background-image", `url(${weapons[3].src})`);
 }
 
 function fight() {
-  $('#board').css('display', 'none');
-  $('#player_1_Img').css('display', 'none');
-  $('#player_2_Img').css('display', 'none');
-  $('#versus').css('display', 'block');
-  $('#player_1_fight').css('display', 'block');
-  $('#player_2_fight').css('display', 'block');
+  $("#board").css("display", "none");
+  $("#player_1_Img").css("display", "none");
+  $("#player_2_Img").css("display", "none");
+  $("#versus").css("display", "block");
+  $("#player_1_fight").css("display", "block");
+  $("#player_2_fight").css("display", "block");
 
   playerOneAttack();
   playerOneDefend();
@@ -452,7 +452,7 @@ function fight() {
 
 // Reduce opponent power when fighting
 function reducePower(activePlayer, passivePlayer) {
-  if (activePlayer.currentWeapon === '') {
+  if (activePlayer.currentWeapon === "") {
     if (passivePlayer.isDefending === true) {
       passivePlayer.power -= 5;
       passivePlayer.isDefending = false;
@@ -471,33 +471,25 @@ function reducePower(activePlayer, passivePlayer) {
 
 function playerOneAttack() {
   if (activePlayer === playerOne) {
-    playerOneFightButtons.css('visibility', 'visible');
-    playerTwoFightButtons.css('visibility', 'hidden');
+    playerOneFightButtons.css("visibility", "visible");
+    playerTwoFightButtons.css("visibility", "hidden");
     playerOne.isDefending = false;
 
-    // Create own function
     function attackPlayerTwo() {
-      // Check the opponent power
-      // playerOne.reduceOpponentPower(playerTwo);
       reducePower(playerOne, playerTwo);
       playerTwoPowerDOM.text(playerTwo.power);
 
       // Animate the player image when the attack button click
-      $('#playerOneImg').animate({ marginLeft: '-20rem' }, 100, function() {
-        $('#playerOneImg').css('margin-left', '0');
+      $("#playerOneImg").animate({ marginLeft: "-20rem" }, 100, function() {
+        $("#playerOneImg").css("margin-left", "0");
       });
 
       switchToPlayerTwo();
-
-      // Remove the event listener function
-      playerOneAttackButton.off('click');
-      playerOneDefendButton.off('click');
-      playerTwoAttackButton.off('click');
-      playerTwoDefendButton.off('click');
+      offClick();
       fight();
     }
 
-    playerOneAttackButton.on('click', attackPlayerTwo);
+    playerOneAttackButton.on("click", attackPlayerTwo);
   }
 }
 
@@ -505,51 +497,43 @@ function playerOneDefend() {
   if (activePlayer === playerOne) {
     function oneDefend() {
       playerOne.isDefending = true;
-      console.log('true 1');
+      // console.log("true 1");
       switchToPlayerTwo();
-      playerOneAttackButton.off('click');
-      playerOneDefendButton.off('click');
-      playerTwoAttackButton.off('click');
-      playerTwoDefendButton.off('click');
+      offClick();
       fight();
     }
   }
-  playerOneDefendButton.on('click', oneDefend);
+  playerOneDefendButton.on("click", oneDefend);
 }
 
 function switchToPlayerTwo() {
   checkWin();
   activePlayer = playerTwo;
   passivePlayer = playerOne;
-  playerOneFightButtons.css('visibility', 'hidden');
-  playerTwoFightButtons.css('visibility', 'visible');
+  playerOneFightButtons.css("visibility", "hidden");
+  playerTwoFightButtons.css("visibility", "visible");
 }
 
 function playerTwoAttack() {
   if (activePlayer === playerTwo) {
-    playerTwoFightButtons.css('visibility', 'visible');
-    playerOneFightButtons.css('visibility', 'hidden');
+    playerTwoFightButtons.css("visibility", "visible");
+    playerOneFightButtons.css("visibility", "hidden");
     playerTwo.isDefending = false;
 
     function attackPlayerOne() {
-      // playerTwo.reduceOpponentPower(playerOne);
       reducePower(playerTwo, playerOne);
       playerOnePowerDOM.text(playerOne.power);
 
       // Animate the player image when the attack button click
-      $('#playerTwoImg').animate({ marginRight: '-20rem' }, 100, function() {
-        $('#playerTwoImg').css('margin-right', '0');
+      $("#playerTwoImg").animate({ marginRight: "-20rem" }, 100, function() {
+        $("#playerTwoImg").css("margin-right", "0");
       });
 
       switchToPlayerOne();
-
-      playerTwoAttackButton.off('click');
-      playerTwoDefendButton.off('click');
-      playerOneAttackButton.off('click');
-      playerOneDefendButton.off('click');
+      offClick();
       fight();
     }
-    playerTwoAttackButton.on('click', attackPlayerOne);
+    playerTwoAttackButton.on("click", attackPlayerOne);
   }
 }
 
@@ -557,50 +541,55 @@ function playerTwoDefend() {
   if (activePlayer === playerTwo) {
     function twoDefend() {
       playerTwo.isDefending = true;
-      console.log('true 2');
+      // console.log("true 2");
 
       switchToPlayerOne();
-      playerTwoAttackButton.off('click');
-      playerTwoDefendButton.off('click');
-      playerOneAttackButton.off('click');
-      playerOneDefendButton.off('click');
+      offClick();
       fight();
     }
   }
-  playerTwoDefendButton.on('click', twoDefend);
+  playerTwoDefendButton.on("click", twoDefend);
 }
 
 function switchToPlayerOne() {
   checkWin();
   activePlayer = playerOne;
   passivePlayer = playerTwo;
-  playerTwoFightButtons.css('visibility', 'hidden');
-  playerOneFightButtons.css('visibility', 'visible');
+  playerTwoFightButtons.css("visibility", "hidden");
+  playerOneFightButtons.css("visibility", "visible");
+}
+
+// Remove the fight button event listener
+function offClick() {
+  playerOneAttackButton.off("click");
+  playerOneDefendButton.off("click");
+  playerTwoAttackButton.off("click");
+  playerTwoDefendButton.off("click");
 }
 
 function checkWin() {
   if (passivePlayer.power <= 0) {
     function showWinner() {
       // The winner has switched to a passivePlayer
-      $('#winner').css('display', 'block');
-      $('#winner').append(`<div id=winnerContainer></div>`);
+      $("#winner").css("display", "block");
+      $("#winner").append(`<div id=winnerContainer></div>`);
 
-      $('#winnerContainer').append(
+      $("#winnerContainer").append(
         `<h1 id=message>And the winner is:</h1>
         <h2>${passivePlayer.name}</h2>`
       );
 
       $(
-        '<section id=winnerImg><img src =' +
+        "<section id=winnerImg><img src =" +
           passivePlayer.src +
-          ' width=150px></section>'
-      ).appendTo('#winnerContainer');
+          " width=150px></section>"
+      ).appendTo("#winnerContainer");
 
-      $('#winnerContainer').append(
-        '<section id=playAgain><button class=btn id=playAgainBtn>Play Again</button></section>'
+      $("#winnerContainer").append(
+        "<section id=playAgain><button class=btn id=playAgainBtn>Play Again</button></section>"
       );
       playAgain();
     }
-    setTimeout(showWinner, 700);
+    setTimeout(showWinner, 500);
   }
 }

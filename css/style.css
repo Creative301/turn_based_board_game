@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-weight: 400;
   color: #333;
   text-align: center;
@@ -87,12 +87,15 @@ body {
 
 /* Obstacles */
 .obstacles {
-  /* border: 2px solid red; */
   background: url(../img/rocks.png) no-repeat center;
   background-size: contain;
 }
 
 /* Weapons */
+.weapon {
+  transition: background-image 0.5s;
+}
+
 .pipe,
 .antenna,
 .metal,
@@ -133,8 +136,9 @@ body {
   background-size: contain;
 }
 
-.playerTurn {
-  /* background-color: orange; */
+.playerOneActive,
+.playerTwoActive {
+  transition: all 1s;
 }
 
 .canMove {
@@ -166,10 +170,6 @@ body {
   width: 17rem;
 }
 
-#fight_buttons_1,
-#fight_buttons_2 {
-  /* display: none; */
-}
 #fight_buttons_1 {
   margin-top: 1.9rem;
 }
@@ -185,68 +185,13 @@ body {
   text-transform: uppercase;
   font-size: 1rem;
   letter-spacing: 0.15rem;
-  /* transition: all 0.3s; */
   position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.button_1:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-color: #f37735;
-  border-radius: 10rem;
-  z-index: -2;
-}
-
-.button_1:before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: #a85528;
-  /* transition: all 0.3s; */
-  border-radius: 10rem;
-  z-index: -1;
-}
-
-.button_2:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f37735;
-  border-radius: 10rem;
-  z-index: -2;
-}
-
-.button_2:before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 0%;
-  height: 100%;
-  background-color: #a85528;
-  /* transition: all 0.3s; */
-  border-radius: 10rem;
-  z-index: -1;
+  transition: background-color 0.5s;
 }
 
 .button:hover {
-  color: #fff;
-}
-
-.button:hover:before {
-  width: 100%;
+  background-color: #a85528;
 }
 
 /* Winner section */
@@ -288,46 +233,15 @@ body {
   cursor: pointer;
   box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.5);
   line-height: 1.25;
-  background: #fc6e51;
   color: white;
+  background-color: #f37735;
   font-size: 1.6rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   position: relative;
-  /* transition: background-color 0.6s ease; */
-  overflow: hidden;
+  transition: background-color 0.5s;
 }
 
-#playAgainBtn:after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 50%;
-  left: 50%;
-  -webkit-transform-style: flat;
-  transform-style: flat;
-  -webkit-transform: translate3d(-50%, -50%, 0);
-  transform: translate3d(-50%, -50%, 0);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 100%;
-  /* transition: width 0.3s ease, height 0.3s ease; */
-}
-
-#playAgainBtn:focus,
 #playAgainBtn:hover {
-  background: #fb512e;
+  background-color: #a85528;
 }
-#playAgainBtn:active:after {
-  width: 200px;
-  height: 200px;
-}
-
-/* #player_1_fight figure img,
-#player_2_fight figure img {
-  background-color: lightgreen;
-}
-#player_1_fight figure,
-#player_2_fight figure {
-  background-color: orange;
-} */
