@@ -21,7 +21,6 @@ let obstacles = [];
 // Random number for the players position
 let randomPositionNumbers = [];
 
-// Player class
 class Player {
   constructor(
     src,
@@ -120,7 +119,6 @@ function createPlayers() {
 let boxes = document.getElementsByClassName('box');
 
 function playAgain() {
-  console.log('play again');
   offClick();
   $('#playAgainBtn').on('click', function() {
     $board.off('click');
@@ -172,12 +170,12 @@ function init() {
   $('#player_1_fight').css('display', 'none');
   $('#player_2_fight').css('display', 'none');
 
-  // Show player one image to the board
+  // Show player one image on the board
   $(playerOnePosition)
     .addClass('playerOneActive playerTurn')
     .removeClass('box');
 
-  // Show player two image to the board
+  // Show player two image on the board
   $(playerTwoPosition)
     .addClass('playerTwoActive')
     .removeClass('box');

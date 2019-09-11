@@ -93,6 +93,7 @@ class Weapon {
   }
 }
 
+// Instantiate four weapons
 let pipe = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'pipe');
 let antenna = new Weapon('Antenna', 'img/w2_antenna.png', 20, 'antenna');
 let metal = new Weapon('Metal', 'img/w3_metal.png', 25, 'metal');
@@ -104,7 +105,6 @@ function movement() {
 
   oldPosition = activePlayer.getCurrentPosition();
   newPosition = $(this).index('.col');
-  // console.log('Active: ' + activePlayer.name);
 
   // Remove the player active class when the player move to another box
   $(activePlayer.positionID).removeClass(activePlayer.activeBox);
@@ -253,7 +253,11 @@ function allowedtoMove() {
 
   // Check if the player move over a box that contain a weapon
   allowedBoxes.forEach(function(box) {
-    if (!box.hasClass('obstacles')) {
+    if (
+      !box.hasClass('obstacles') &&
+      !box.hasClass('playerOneActive') &&
+      !box.hasClass('playerTwoActive')
+    ) {
       box.addClass('canMove');
     }
   });
@@ -457,7 +461,7 @@ function reducePower(activePlayer, passivePlayer) {
       passivePlayer.power -= 5;
       passivePlayer.isDefending = false;
     } else {
-      passivePlayer.power -= 50;
+      passivePlayer.power -= 10;
     }
   } else {
     if (passivePlayer.isDefending === true) {
