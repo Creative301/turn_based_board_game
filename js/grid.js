@@ -38,7 +38,7 @@ class Grid {
       const $row = $('<div>').addClass('row');
       for (let col = 0; col < this.cols; col++) {
         const $col = $('<div>')
-          .addClass('col box vacant vacantBox')
+          .addClass('col box vacant')
           .attr('data-col', col)
           .attr('data-row', row)
           .attr('id', col + '_' + row);

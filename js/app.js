@@ -18,7 +18,7 @@ let playerTwoSrc = 'img/playerTwoWin.png';
 let activePlayer, passivePlayer;
 let obstacles = [];
 
-// Random number for the players position
+// Random numbers for the players position
 let randomPositionNumbers = [];
 
 class Player {
