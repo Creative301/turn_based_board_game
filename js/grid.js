@@ -93,7 +93,7 @@ class Weapon {
   }
 }
 
-// Instantiate four weapons
+// Instantiate four weapons objects
 let pipe = new Weapon('Pipe', 'img/w1_pipe.png', 15, 'pipe');
 let antenna = new Weapon('Antenna', 'img/w2_antenna.png', 20, 'antenna');
 let metal = new Weapon('Metal', 'img/w3_metal.png', 25, 'metal');
@@ -115,7 +115,7 @@ function movement() {
   // Show the player on the new box that was clicked
   $(this).addClass(activePlayer.activeBox);
 
-  // Remove canMove class when the player switch
+  // Remove onHover, canMove, and adjacent class when the player switch
   $('div').removeClass('onHover canMove adjacent');
 
   // Switch active class
